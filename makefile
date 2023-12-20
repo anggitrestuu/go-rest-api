@@ -1,10 +1,13 @@
 MOCKERY_BIN := $(GOPATH)/bin/mockery
-SWAGGER_BIN := $(GOPATH)/bin/swag
 
 .PHONY: serve tidy test mock
 
-air: 
-	alias air='$(go env GOPATH)/bin/air'
+alias:
+	alias air='$(go env GOPATH)/bin/air' 
+	alias swag='$(go env GOPATH)/bin/swag'
+
+swag:
+	swag init -g /cmd/api/main.go -o docs
 
 docs:
 	swag init -g /cmd/api/main.go -o docs

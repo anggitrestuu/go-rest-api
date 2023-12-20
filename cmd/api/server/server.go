@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/anggitrestuu/go-rest-api/docs"
 	"github.com/anggitrestuu/go-rest-api/internal/config"
 	"github.com/anggitrestuu/go-rest-api/internal/constants"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/caches"
@@ -21,7 +22,6 @@ import (
 	"github.com/anggitrestuu/go-rest-api/pkg/mailer"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -67,8 +67,8 @@ func NewApp() (*App, error) {
 	routes.NewUsersRoute(api, conn, jwtService, redisCache, ristrettoCache, authMiddleware, mailerService).Routes()
 
 	// swagger
+	docs.SwaggerInfo.BasePath = "/api"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
 	// we can add web pages if needed
 	// web := router.Group("web")
 	// ...
