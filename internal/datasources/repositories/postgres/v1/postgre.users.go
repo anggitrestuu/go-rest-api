@@ -5,14 +5,14 @@ import (
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
-	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 )
 
 type postgreUserRepository struct {
-	conn *sqlx.DB
+	conn *gorm.DB
 }
 
-func NewUserRepository(conn *sqlx.DB) V1Domains.UserRepository {
+func NewUserRepository(conn *gorm.DB) V1Domains.UserRepository {
 	return &postgreUserRepository{
 		conn: conn,
 	}
@@ -21,9 +21,10 @@ func NewUserRepository(conn *sqlx.DB) V1Domains.UserRepository {
 func (r *postgreUserRepository) Store(ctx context.Context, inDom *V1Domains.UserDomain) (err error) {
 	userRecord := records.FromUsersV1Domain(inDom)
 
-	_, err = r.conn.NamedQueryContext(ctx, `INSERT INTO users(id, username, email, password, active, role_id, created_at) VALUES (uuid_generate_v4(), :username, :email, :password, false, :role_id, :created_at)`, userRecord)
-	if err != nil {
-		return err
+	// Using GORM's Create method to insert a new record
+	result := r.conn.WithContext(ctx).Create(&userRecord)
+	if result.Error != nil {
+		return result.Error
 	}
 
 	return nil
@@ -32,9 +33,10 @@ func (r *postgreUserRepository) Store(ctx context.Context, inDom *V1Domains.User
 func (r *postgreUserRepository) GetByEmail(ctx context.Context, inDom *V1Domains.UserDomain) (outDomain V1Domains.UserDomain, err error) {
 	userRecord := records.FromUsersV1Domain(inDom)
 
-	err = r.conn.GetContext(ctx, &userRecord, `SELECT * FROM users WHERE "email" = $1`, userRecord.Email)
-	if err != nil {
-		return V1Domains.UserDomain{}, err
+	// Using GORM's First method to fetch the first record matching the email
+	result := r.conn.WithContext(ctx).Where("email = ?", userRecord.Email).First(&userRecord)
+	if result.Error != nil {
+		return V1Domains.UserDomain{}, result.Error
 	}
 
 	return userRecord.ToV1Domain(), nil
@@ -43,7 +45,7 @@ func (r *postgreUserRepository) GetByEmail(ctx context.Context, inDom *V1Domains
 func (r *postgreUserRepository) ChangeActiveUser(ctx context.Context, inDom *V1Domains.UserDomain) (err error) {
 	userRecord := records.FromUsersV1Domain(inDom)
 
-	_, err = r.conn.NamedQueryContext(ctx, `UPDATE users SET active = :active WHERE id = :id`, userRecord)
-
-	return
+	// Using GORM's Model and Update method to update the active status
+	result := r.conn.WithContext(ctx).Model(&userRecord).Where("id = ?", userRecord.Id).Update("active", userRecord.Active)
+	return result.Error
 }

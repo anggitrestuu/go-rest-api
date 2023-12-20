@@ -13,7 +13,7 @@ func (u *Users) ToV1Domain() V1Domains.UserDomain {
 		Active:    u.Active,
 		RoleID:    u.RoleId,
 		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
+		UpdatedAt: &u.UpdatedAt,
 	}
 }
 
@@ -26,7 +26,7 @@ func FromUsersV1Domain(u *V1Domains.UserDomain) Users {
 		Active:    u.Active,
 		RoleId:    u.RoleID,
 		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
+		UpdatedAt: *u.UpdatedAt,
 	}
 }
 

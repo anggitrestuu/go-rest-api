@@ -18,11 +18,11 @@ func init() {
 }
 
 func main() {
-	db, err := utils.SetupPostgresConnection()
+	db, err := utils.SetupGORMPostgresConnection()
 	if err != nil {
 		logger.Panic(err.Error(), logrus.Fields{constants.LoggerCategory: constants.LoggerCategorySeeder})
 	}
-	defer db.Close()
+	// defer db.Close()
 
 	logger.Info("seeding...", logrus.Fields{constants.LoggerCategory: constants.LoggerCategorySeeder})
 

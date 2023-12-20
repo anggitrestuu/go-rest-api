@@ -7,8 +7,8 @@ import (
 	"github.com/anggitrestuu/go-rest-api/internal/constants"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
 	"github.com/anggitrestuu/go-rest-api/pkg/logger"
-	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
 
 type Seeder interface {
@@ -16,10 +16,10 @@ type Seeder interface {
 }
 
 type seeder struct {
-	db *sqlx.DB
+	db *gorm.DB
 }
 
-func NewSeeder(db *sqlx.DB) Seeder {
+func NewSeeder(db *gorm.DB) Seeder {
 	return &seeder{db: db}
 }
 
@@ -31,7 +31,8 @@ func (s *seeder) UserSeeder(userData []records.Users) (err error) {
 	logger.Info("inserting users data...", logrus.Fields{constants.LoggerCategory: constants.LoggerCategorySeeder})
 	for _, user := range userData {
 		user.CreatedAt = time.Now().In(constants.GMT7)
-		if _, err = s.db.NamedQuery(`INSERT INTO users(id, username, email, password, active, role_id, created_at) VALUES (uuid_generate_v4(), :username, :email, :password, :active, :role_id, :created_at)`, user); err != nil {
+		// Using GORM's Create method to insert user record
+		if err := s.db.Create(&user).Error; err != nil {
 			return err
 		}
 	}

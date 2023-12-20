@@ -29,7 +29,7 @@ type App struct {
 
 func NewApp() (*App, error) {
 	// setup databases
-	conn, err := utils.SetupPostgresConnection()
+	conn, err := utils.SetupGORMPostgresConnection()
 	if err != nil {
 		return nil, err
 	}

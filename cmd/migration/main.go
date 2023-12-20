@@ -12,8 +12,8 @@ import (
 	"github.com/anggitrestuu/go-rest-api/internal/constants"
 	"github.com/anggitrestuu/go-rest-api/internal/utils"
 	"github.com/anggitrestuu/go-rest-api/pkg/logger"
-	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
 
 const (
@@ -37,11 +37,11 @@ func main() {
 	flag.BoolVar(&down, "down", false, "involves dropping tables, columns, or other structures")
 	flag.Parse()
 
-	db, err := utils.SetupPostgresConnection()
+	db, err := utils.SetupGORMPostgresConnection()
 	if err != nil {
 		logger.Panic(err.Error(), logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryMigration})
 	}
-	defer db.Close()
+	// defer db.Close()
 
 	if up {
 		err = migrate(db, "up")
@@ -58,7 +58,7 @@ func main() {
 	}
 }
 
-func migrate(db *sqlx.DB, action string) (err error) {
+func migrate(db *gorm.DB, action string) (err error) {
 	logger.InfoF("running migration [%s]", logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryMigration}, action)
 
 	cwd, err := os.Getwd()
@@ -78,7 +78,7 @@ func migrate(db *sqlx.DB, action string) (err error) {
 			return errors.New("error when read file")
 		}
 
-		_, err = db.Exec(string(data))
+		err = db.Exec(string(data)).Error
 		if err != nil {
 			fmt.Println(err)
 			return fmt.Errorf("error when exec query in file:%v", file)

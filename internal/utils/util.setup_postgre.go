@@ -6,10 +6,10 @@ import (
 	"github.com/anggitrestuu/go-rest-api/internal/config"
 	"github.com/anggitrestuu/go-rest-api/internal/constants"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/drivers"
-	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 )
 
-func SetupPostgresConnection() (*sqlx.DB, error) {
+func SetupGORMPostgresConnection() (*gorm.DB, error) {
 	var dsn string
 	switch config.AppConfig.Environment {
 	case constants.EnvironmentDevelopment:
@@ -18,8 +18,8 @@ func SetupPostgresConnection() (*sqlx.DB, error) {
 		dsn = config.AppConfig.DBPostgreURL
 	}
 
-	// Setup sqlx config of postgreSQL
-	config := drivers.SQLXConfig{
+	// Setup GORM config for PostgreSQL
+	gormConfig := drivers.GORMConfig{
 		DriverName:     config.AppConfig.DBPostgreDriver,
 		DataSourceName: dsn,
 		MaxOpenConns:   100,
@@ -27,8 +27,8 @@ func SetupPostgresConnection() (*sqlx.DB, error) {
 		MaxLifetime:    15 * time.Minute,
 	}
 
-	// Initialize postgreSQL connection with sqlx
-	conn, err := config.InitializeSQLXDatabase()
+	// Initialize PostgreSQL connection with GORM
+	conn, err := gormConfig.InitializeGORMDatabase()
 	if err != nil {
 		return nil, err
 	}

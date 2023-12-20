@@ -8,17 +8,17 @@ import (
 	"github.com/anggitrestuu/go-rest-api/pkg/jwt"
 	"github.com/anggitrestuu/go-rest-api/pkg/mailer"
 	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 )
 
 type usersRoutes struct {
 	V1Handler      V1Handler.UserHandler
 	router         *gin.RouterGroup
-	db             *sqlx.DB
+	db             *gorm.DB
 	authMiddleware gin.HandlerFunc
 }
 
-func NewUsersRoute(router *gin.RouterGroup, db *sqlx.DB, jwtService jwt.JWTService, redisCache caches.RedisCache, ristrettoCache caches.RistrettoCache, authMiddleware gin.HandlerFunc, mailer mailer.OTPMailer) *usersRoutes {
+func NewUsersRoute(router *gin.RouterGroup, db *gorm.DB, jwtService jwt.JWTService, redisCache caches.RedisCache, ristrettoCache caches.RistrettoCache, authMiddleware gin.HandlerFunc, mailer mailer.OTPMailer) *usersRoutes {
 	V1UserRepository := V1PostgresRepository.NewUserRepository(db)
 	V1UserUsecase := V1Usecase.NewUserUsecase(V1UserRepository, jwtService, mailer)
 	V1UserHandler := V1Handler.NewUserHandler(V1UserUsecase, redisCache, ristrettoCache)

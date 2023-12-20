@@ -2,17 +2,18 @@ package records
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Users struct {
-	Id        string     `db:"id"`
-	Username  string     `db:"username"`
-	Email     string     `db:"email"`
-	Password  string     `db:"password"`
-	Active    bool       `db:"active"`
-	RoleId    int        `db:"role_id"`
-	CreatedAt time.Time  `db:"created_at"`
-	UpdatedAt *time.Time `db:"updated_at"`
-	DeletedAt *time.Time `db:"deleted_at"`
+	Id        string         `gorm:"primaryKey;column:id"`
+	Username  string         `gorm:"column:username"`
+	Email     string         `gorm:"column:email;unique"`
+	Password  string         `gorm:"column:password"`
+	Active    bool           `gorm:"column:active"`
+	RoleId    int            `gorm:"column:role_id"`
+	CreatedAt time.Time      `gorm:"column:created_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;index"`
 }
-
