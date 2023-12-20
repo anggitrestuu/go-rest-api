@@ -1,14 +1,14 @@
 package routes
 
 import (
+	V1Usecase "github.com/anggitrestuu/go-rest-api/internal/business/usecases/v1"
+	"github.com/anggitrestuu/go-rest-api/internal/datasources/caches"
+	V1PostgresRepository "github.com/anggitrestuu/go-rest-api/internal/datasources/repositories/postgres/v1"
+	V1Handler "github.com/anggitrestuu/go-rest-api/internal/http/handlers/v1"
+	"github.com/anggitrestuu/go-rest-api/pkg/jwt"
+	"github.com/anggitrestuu/go-rest-api/pkg/mailer"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	V1Usecase "github.com/snykk/go-rest-boilerplate/internal/business/usecases/v1"
-	"github.com/snykk/go-rest-boilerplate/internal/datasources/caches"
-	V1PostgresRepository "github.com/snykk/go-rest-boilerplate/internal/datasources/repositories/postgres/v1"
-	V1Handler "github.com/snykk/go-rest-boilerplate/internal/http/handlers/v1"
-	"github.com/snykk/go-rest-boilerplate/pkg/jwt"
-	"github.com/snykk/go-rest-boilerplate/pkg/mailer"
 )
 
 type usersRoutes struct {

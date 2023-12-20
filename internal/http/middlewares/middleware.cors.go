@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/pkg/helpers"
+	"github.com/anggitrestuu/go-rest-api/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/pkg/helpers"
-	"github.com/snykk/go-rest-boilerplate/pkg/logger"
 )
 
 func CORSMiddleware() gin.HandlerFunc {

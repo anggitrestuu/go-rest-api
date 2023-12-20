@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/anggitrestuu/go-rest-api/pkg/logger"
 	"github.com/gin-gonic/gin"
-	"github.com/snykk/go-rest-boilerplate/pkg/logger"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/anggitrestuu/go-rest-api/pkg/helpers"
 	"github.com/go-playground/validator/v10"
-	"github.com/snykk/go-rest-boilerplate/pkg/helpers"
 )
 
 var mapHelepr = map[string]string{

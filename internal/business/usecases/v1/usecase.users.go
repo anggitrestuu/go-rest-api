@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"time"
 
-	V1Domains "github.com/snykk/go-rest-boilerplate/internal/business/domains/v1"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/pkg/helpers"
-	"github.com/snykk/go-rest-boilerplate/pkg/jwt"
-	"github.com/snykk/go-rest-boilerplate/pkg/mailer"
+	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/pkg/helpers"
+	"github.com/anggitrestuu/go-rest-api/pkg/jwt"
+	"github.com/anggitrestuu/go-rest-api/pkg/mailer"
 )
 
 type userUsecase struct {

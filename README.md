@@ -4,26 +4,26 @@ A great starting point for building RESTful APIs in Go using Gin framework, and 
 
 ### Features
 
--   Implements the Clean Architecture pattern for a scalable and maintainable codebase
--   Uses the Gin framework for efficient and fast handling of HTTP requests
--   Integrates with PostgreSQL databases using SQLx.DB for powerful and flexible database operations
+- Implements the Clean Architecture pattern for a scalable and maintainable codebase
+- Uses the Gin framework for efficient and fast handling of HTTP requests
+- Integrates with PostgreSQL databases using SQLx.DB for powerful and flexible database operations
 
 ##### Authentication
 
--   Supports JWT authentication with configurable expiration and issuer, allowing for flexible and secure authentication processes.
--   Supports OTP authentication with configurable expiration and Redis caching to store and retrieve the OTP codes, providing fast and efficient authentication processes.
+- Supports JWT authentication with configurable expiration and issuer, allowing for flexible and secure authentication processes.
+- Supports OTP authentication with configurable expiration and Redis caching to store and retrieve the OTP codes, providing fast and efficient authentication processes.
 
 ### Getting Started
 
 ##### Prerequisites
 
--   Go version 1.17 or higher
--   PostgreSQL version 9.1 or higher
+- Go version 1.17 or higher
+- PostgreSQL version 9.1 or higher
 
 To get up and running with the Go-REST-Boilerplate, follow these simple steps:
 
 ```
-$ git clone https://github.com/snykk/go-rest-boilerplate.git
+$ git clone https://github.com/anggitrestuu/go-rest-api.git
 $ cd go-rest-boilerplate
 $ cp internal/config/.env.example internal/config/.env # create a copy of the example environment file, and also follow configuration steps on the difference section below
 $ go build -o go-rest-boilerplate.out cmd/api/main.go
@@ -36,36 +36,36 @@ The application can be configured using environment variables to fit your specif
 
 ##### App
 
--   `PORT`: The port on which the server will listen (defaults to 8080)
--   `ENVIRONMENT`: The environment the application is running in (defaults to "development")
--   `DEBUG`: Enable or disable debug mode (defaults to true)
+- `PORT`: The port on which the server will listen (defaults to 8080)
+- `ENVIRONMENT`: The environment the application is running in (defaults to "development")
+- `DEBUG`: Enable or disable debug mode (defaults to true)
 
 ##### Database
 
 PostgreSQL
 
--   `DB_POSTGRE_DRIVER`: The database driver to use (defaults to "postgres")
--   `DB_POSTGRE_DSN`: The database connection URI in DSN format (defaults to "user=myuser password=mypassword host=myhost port=5432 dbname=mydb sslmode=disable timezone=Asia/Jakarta")
--   `DB_POSTGRE_URL`: The database connection URI in URL format (defaults to "postgres://user:pass@host/db")
+- `DB_POSTGRE_DRIVER`: The database driver to use (defaults to "postgres")
+- `DB_POSTGRE_DSN`: The database connection URI in DSN format (defaults to "user=myuser password=mypassword host=myhost port=5432 dbname=mydb sslmode=disable timezone=Asia/Jakarta")
+- `DB_POSTGRE_URL`: The database connection URI in URL format (defaults to "postgres://user:pass@host/db")
 
 ##### JWT
 
--   `JWT_SECRET`: The secret key used to sign and verify JWT tokens (defaults to "dont-tuch-mytralalala-mydangdingdong")
--   `JWT_EXPIRED`: The number of hours until JWT tokens expire (defaults to 5)
--   `JWT_ISSUER`: The issuer of JWT tokens (defaults to "snykk_here")
+- `JWT_SECRET`: The secret key used to sign and verify JWT tokens (defaults to "dont-tuch-mytralalala-mydangdingdong")
+- `JWT_EXPIRED`: The number of hours until JWT tokens expire (defaults to 5)
+- `JWT_ISSUER`: The issuer of JWT tokens (defaults to "snykk_here")
 
 ##### OTP
 
--   `OTP_EMAIL`: The email address to send OTP codes to (defaults to "patrick@gmail.com")
--   `OTP_PASSWORD`: The password to use for sending OTP codes (defaults to "idonthavepassword")
+- `OTP_EMAIL`: The email address to send OTP codes to (defaults to "patrick@gmail.com")
+- `OTP_PASSWORD`: The password to use for sending OTP codes (defaults to "idonthavepassword")
 
 ##### Cache
 
 Redis
 
--   `REDIS_HOST`: The host and port of the Redis server (defaults to "localhost:6969")
--   `REDIS_PASS`: The password to use for connecting to Redis (defaults to "mydangdingdong")
--   `REDIS_EXPIRED`: The number of minutes until cache items expire in Redis (defaults to 5)
+- `REDIS_HOST`: The host and port of the Redis server (defaults to "localhost:6969")
+- `REDIS_PASS`: The password to use for connecting to Redis (defaults to "mydangdingdong")
+- `REDIS_EXPIRED`: The number of minutes until cache items expire in Redis (defaults to 5)
 
 ### Folder Structure
 
@@ -158,21 +158,21 @@ root/
 
 This folder contains all the entry points of the application. There are four sub-folders in the `cmd` folder:
 
--   `api`: This folder contains the main entry point of the REST API server. The `main.go` file in the `server` sub-folder is responsible for starting the server and setting up all the necessary routes.
+- `api`: This folder contains the main entry point of the REST API server. The `main.go` file in the `server` sub-folder is responsible for starting the server and setting up all the necessary routes.
 
--   `cron`: This folder contains the main entry point for any cron jobs that need to be run.
+- `cron`: This folder contains the main entry point for any cron jobs that need to be run.
 
--   `migration`: This folder contains the main entry point for managing database migrations.
+- `migration`: This folder contains the main entry point for managing database migrations.
 
--   `seed`: This folder contains the main entry point for seed data into the database.
+- `seed`: This folder contains the main entry point for seed data into the database.
 
 ##### `deploy` folder
 
 This folder contains the necessary configuration files for deploying the application to a production environment.
 
--   `Dockerfile`: This file is used to build a Docker image of the application.
+- `Dockerfile`: This file is used to build a Docker image of the application.
 
--   `docker-compose.yml`: This file is used to start the application and its dependencies (such as the database) using Docker Compose.
+- `docker-compose.yml`: This file is used to start the application and its dependencies (such as the database) using Docker Compose.
 
 ##### `docs` folder
 
@@ -182,43 +182,43 @@ This folder contains the documentation for the REST API, including the `swagger.
 
 This folder contains all the business logic and other implementation details of the application. It is structured as follows:
 
--   `business` folder
+- `business` folder
 
-    -   domains folder: This folder contains domain-specific logic, such as the business rules for creating, updating, and deleting users.
+  - domains folder: This folder contains domain-specific logic, such as the business rules for creating, updating, and deleting users.
 
-    -   usecases folder: This folder contains the implementation of the use cases that are defined in the domains folder.
+  - usecases folder: This folder contains the implementation of the use cases that are defined in the domains folder.
 
--   `config` folder
+- `config` folder
 
-    -   `.env`: This file contains the environment variables that are used by the application.
-    -   `.env.example`: This file is an example of the .env file, with all the necessary environment variables listed.
-    -   `config.go`: This file reads the environment variables and sets up the configuration for the application.
+  - `.env`: This file contains the environment variables that are used by the application.
+  - `.env.example`: This file is an example of the .env file, with all the necessary environment variables listed.
+  - `config.go`: This file reads the environment variables and sets up the configuration for the application.
 
--   `constants` folder
+- `constants` folder
 
-    -   this folder contains constant values used throughout the application.
+  - this folder contains constant values used throughout the application.
 
--   `datasources` folder
+- `datasources` folder
 
-    -   `caches` folder: This folder contains the implementation of cache storage, such as Redis.
-    -   `drivers` folder: This folder contains the implementation of database drivers, such as PostgreSQL.
-    -   `records` folder: This folder contains the implementation of database records, such as User.
-    -   `repositories` folder: This folder contains the implementation of database repositories, such as PostgreSQL and MongoDB.
+  - `caches` folder: This folder contains the implementation of cache storage, such as Redis.
+  - `drivers` folder: This folder contains the implementation of database drivers, such as PostgreSQL.
+  - `records` folder: This folder contains the implementation of database records, such as User.
+  - `repositories` folder: This folder contains the implementation of database repositories, such as PostgreSQL and MongoDB.
 
--   `http` folder
+- `http` folder
 
-    -   `datatransfers` folder: This folder contains the implementation of data transfer objects, such as request and response objects.
-    -   `handlers` folder: This folder contains the implementation of HTTP handlers, which handle incoming HTTP requests and send responses back to the client.
-    -   `middlewares` folder: This folder contains the implementation of middlewares, which are executed before the request is handled by the handler.
-    -   `routes` folder: This folder contains the implementation of routes, which map URLs to handlers.
+  - `datatransfers` folder: This folder contains the implementation of data transfer objects, such as request and response objects.
+  - `handlers` folder: This folder contains the implementation of HTTP handlers, which handle incoming HTTP requests and send responses back to the client.
+  - `middlewares` folder: This folder contains the implementation of middlewares, which are executed before the request is handled by the handler.
+  - `routes` folder: This folder contains the implementation of routes, which map URLs to handlers.
 
--   `mocks` folder
+- `mocks` folder
 
-    -   this folder contains the implementation of mock objects used in tests.
+  - this folder contains the implementation of mock objects used in tests.
 
--   `utils` folder
+- `utils` folder
 
-    -   this folder contains utility functions and classes used throughout the application.
+  - this folder contains utility functions and classes used throughout the application.
 
 ##### `pkg` folder
 
@@ -230,4 +230,4 @@ This project is open for contributions and suggestions. If you have an idea for 
 
 ### License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/snykk/go-rest-boilerplate/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/anggitrestuu/go-rest-api/blob/master/LICENSE) file for details.

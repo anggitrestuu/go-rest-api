@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
+	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/internal/datasources/caches"
+	"github.com/anggitrestuu/go-rest-api/internal/http/datatransfers/requests"
+	"github.com/anggitrestuu/go-rest-api/internal/http/datatransfers/responses"
+	"github.com/anggitrestuu/go-rest-api/pkg/jwt"
+	"github.com/anggitrestuu/go-rest-api/pkg/validators"
 	"github.com/gin-gonic/gin"
-	V1Domains "github.com/snykk/go-rest-boilerplate/internal/business/domains/v1"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/internal/datasources/caches"
-	"github.com/snykk/go-rest-boilerplate/internal/http/datatransfers/requests"
-	"github.com/snykk/go-rest-boilerplate/internal/http/datatransfers/responses"
-	"github.com/snykk/go-rest-boilerplate/pkg/jwt"
-	"github.com/snykk/go-rest-boilerplate/pkg/validators"
 )
 
 type UserHandler struct {

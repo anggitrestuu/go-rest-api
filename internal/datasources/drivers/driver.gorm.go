@@ -1,21 +1,16 @@
 package drivers
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var db *gorm.DB
-
-func InitGormDB(dataSourceName string) error {
-	var err error
-	db, err = gorm.Open("postgres", dataSourceName)
+func GetDatabaseConnection() (*gorm.DB, error) {
+	// Replace with your database connection details
+	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
-}
-
-func CloseGormDB() error {
-	return db.Close()
+	return db, nil
 }

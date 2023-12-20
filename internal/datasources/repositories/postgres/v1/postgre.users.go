@@ -3,9 +3,9 @@ package v1
 import (
 	"context"
 
+	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
+	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
 	"github.com/jmoiron/sqlx"
-	V1Domains "github.com/snykk/go-rest-boilerplate/internal/business/domains/v1"
-	"github.com/snykk/go-rest-boilerplate/internal/datasources/records"
 )
 
 type postgreUserRepository struct {

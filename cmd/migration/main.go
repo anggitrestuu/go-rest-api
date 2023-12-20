@@ -8,12 +8,12 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/anggitrestuu/go-rest-api/internal/config"
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/internal/utils"
+	"github.com/anggitrestuu/go-rest-api/pkg/logger"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
-	"github.com/snykk/go-rest-boilerplate/internal/config"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/internal/utils"
-	"github.com/snykk/go-rest-boilerplate/pkg/logger"
 )
 
 const (

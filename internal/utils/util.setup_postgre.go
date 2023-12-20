@@ -3,10 +3,10 @@ package utils
 import (
 	"time"
 
+	"github.com/anggitrestuu/go-rest-api/internal/config"
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/internal/datasources/drivers"
 	"github.com/jmoiron/sqlx"
-	"github.com/snykk/go-rest-boilerplate/internal/config"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/internal/datasources/drivers"
 )
 
 func SetupPostgresConnection() (*sqlx.DB, error) {

@@ -3,7 +3,7 @@ package helpers_test
 import (
 	"testing"
 
-	"github.com/snykk/go-rest-boilerplate/pkg/helpers"
+	"github.com/anggitrestuu/go-rest-api/pkg/helpers"
 )
 
 func TestIsArrayContains(t *testing.T) {

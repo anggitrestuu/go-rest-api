@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/pkg/logger"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/pkg/logger"
 )
 
 // SQLXConfig holds the configuration for the database instance

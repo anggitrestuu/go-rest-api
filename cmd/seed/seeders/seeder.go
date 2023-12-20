@@ -4,11 +4,11 @@ import (
 	"errors"
 	"time"
 
+	"github.com/anggitrestuu/go-rest-api/internal/constants"
+	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
+	"github.com/anggitrestuu/go-rest-api/pkg/logger"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
-	"github.com/snykk/go-rest-boilerplate/internal/constants"
-	"github.com/snykk/go-rest-boilerplate/internal/datasources/records"
-	"github.com/snykk/go-rest-boilerplate/pkg/logger"
 )
 
 type Seeder interface {
