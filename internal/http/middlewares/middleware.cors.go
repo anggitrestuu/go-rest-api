@@ -15,6 +15,8 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Methods", constants.AllowMethods)
 		c.Writer.Header().Set("Access-Control-Max-Age", constants.MaxAge)
 
+		println("CORS Middleware")
+
 		// if !helpers.IsArrayContains(strings.Split(constants.AllowMethods, ", "), c.Request.Method) {
 		// 	logger.InfoF("method %s is not allowed\n", logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryCORS}, c.Request.Method)
 		// 	c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "forbidden with CORS policy 1"})
@@ -42,8 +44,6 @@ func CORSMiddleware() gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusOK)
 			return
 		}
-
-		c.Next()
 
 		c.Next()
 	}
