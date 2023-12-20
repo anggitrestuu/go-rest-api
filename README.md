@@ -231,3 +231,5 @@ This project is open for contributions and suggestions. If you have an idea for 
 ### License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/anggitrestuu/go-rest-api/blob/master/LICENSE) file for details.
+
+alias air='$(go env GOPATH)/bin/air'
