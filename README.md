@@ -87,8 +87,6 @@ root/
 |-- deploy/
 |   |-- Dockerfile
 |   |-- docker-compose.yml
-|-- docs/
-|   |-- swagger.yaml
 |-- internal/
 |   |-- business/
 |   |   |-- domains
@@ -233,3 +231,4 @@ This project is open for contributions and suggestions. If you have an idea for 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/anggitrestuu/go-rest-api/blob/master/LICENSE) file for details.
 
 alias air='$(go env GOPATH)/bin/air'
+alias swag='$(go env GOPATH)/bin/swag'
