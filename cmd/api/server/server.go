@@ -22,7 +22,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 
-	docs "github.com/anggitrestuu/go-rest-api/docs"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -40,16 +39,6 @@ func NewApp() (*App, error) {
 
 	// setup router
 	router := setupRouter()
-
-	// swagger
-	docs.SwaggerInfo.Title = "Go Rest API"
-	docs.SwaggerInfo.Description = "Go Rest API"
-	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%d", config.AppConfig.Host, config.AppConfig.Port)
-	docs.SwaggerInfo.BasePath = "/api"
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
-
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// jwt service
 	jwtService := jwt.NewJWTService(config.AppConfig.JWTSecret, config.AppConfig.JWTIssuer, config.AppConfig.JWTExpired)
@@ -76,6 +65,9 @@ func NewApp() (*App, error) {
 	api := router.Group("api")
 	api.GET("/", routes.RootHandler)
 	routes.NewUsersRoute(api, conn, jwtService, redisCache, ristrettoCache, authMiddleware, mailerService).Routes()
+
+	// swagger
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// we can add web pages if needed
 	// web := router.Group("web")

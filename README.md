@@ -232,3 +232,5 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 alias air='$(go env GOPATH)/bin/air'
 alias swag='$(go env GOPATH)/bin/swag'
+
+swag init -g /cmd/api/main.go -o docs
