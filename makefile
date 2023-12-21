@@ -30,3 +30,5 @@ coverage:
 	go tool cover -html=coverage.out -o coverage.html
 seed:
 	go run cmd/seed/main.go
+mig-create:
+	migrate create -ext sql -dir cmd/migration/migrations -seq $(name)
