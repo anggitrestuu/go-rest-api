@@ -2,6 +2,8 @@ package drivers
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"time"
 
 	"github.com/anggitrestuu/go-rest-api/internal/constants"
@@ -10,6 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	logGorm "gorm.io/gorm/logger"
 )
 
 // GORMConfig holds the configuration for the GORM database instance
@@ -23,7 +26,20 @@ type GORMConfig struct {
 
 // InitializeGORMDatabase returns a new GORM DB instance
 func (config *GORMConfig) InitializeGORMDatabase() (*gorm.DB, error) {
-	db, err := gorm.Open(postgres.Open(config.DataSourceName), &gorm.Config{})
+	newLogger := logGorm.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logGorm.Config{
+			SlowThreshold:             time.Second,   // Slow SQL threshold
+			LogLevel:                  logGorm.Error, // Log level
+			IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
+			ParameterizedQueries:      true,          // Don't include params in the SQL log
+			Colorful:                  false,         // Disable color
+		},
+	)
+
+	db, err := gorm.Open(postgres.Open(config.DataSourceName), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		return nil, fmt.Errorf("error opening database with GORM: %v", err)
 	}

@@ -7,10 +7,7 @@ alias:
 	alias swag='$(go env GOPATH)/bin/swag'
 
 swag:
-	swag init -g /cmd/api/main.go -o docs
-
-docs:
-	swag init -g /cmd/api/main.go -o docs
+	swag init -g cmd/api/server/server.go -o docs
 
 serve:
 	go run cmd/api/main.go

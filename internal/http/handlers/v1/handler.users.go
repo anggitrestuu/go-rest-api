@@ -28,6 +28,14 @@ func NewUserHandler(usecase V1Domains.UserUsecase, redisCache caches.RedisCache,
 	}
 }
 
+// @Summary User registration
+// @Description Register a new user
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param user body requests.UserRequest true "Register User"
+// @Success 200 {object} map[string]interface{} "registration user success"
+// @Router /api/v1/auth/regis [post]
 func (userH UserHandler) Regis(ctx *gin.Context) {
 	var UserRegisRequest requests.UserRequest
 	if err := ctx.ShouldBindJSON(&UserRegisRequest); err != nil {
@@ -42,7 +50,6 @@ func (userH UserHandler) Regis(ctx *gin.Context) {
 
 	userDomain := UserRegisRequest.ToV1Domain()
 	userDomainn, statusCode, err := userH.usecase.Store(ctx.Request.Context(), userDomain)
-	fmt.Println(userDomain, statusCode, err)
 	if err != nil {
 		NewErrorResponse(ctx, statusCode, err.Error())
 		return
@@ -53,6 +60,14 @@ func (userH UserHandler) Regis(ctx *gin.Context) {
 	})
 }
 
+// @Summary User login
+// @Description Logs in a user
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param user body requests.UserLoginRequest true "Login User"
+// @Success 200 {object} map[string]interface{} "login success"
+// @Router /api/v1/auth/login [post]
 func (userH UserHandler) Login(ctx *gin.Context) {
 	var UserLoginRequest requests.UserLoginRequest
 	if err := ctx.ShouldBindJSON(&UserLoginRequest); err != nil {
@@ -74,6 +89,14 @@ func (userH UserHandler) Login(ctx *gin.Context) {
 	NewSuccessResponse(ctx, statusCode, "login success", responses.FromV1Domain(userDomain))
 }
 
+// @Summary Send OTP
+// @Description Send an OTP to user's email
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param email body requests.UserSendOTPRequest true "Send OTP"
+// @Success 200 {object} map[string]interface{} "otp code has been send"
+// @Router /api/v1/auth/send-otp [post]
 func (userH UserHandler) SendOTP(ctx *gin.Context) {
 	var userOTP requests.UserSendOTPRequest
 
@@ -99,6 +122,14 @@ func (userH UserHandler) SendOTP(ctx *gin.Context) {
 	NewSuccessResponse(ctx, statusCode, fmt.Sprintf("otp code has been send to %s", userOTP.Email), nil)
 }
 
+// @Summary Verify OTP
+// @Description Verify OTP for a user
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param otp body requests.UserVerifOTPRequest true "Verify OTP"
+// @Success 200 {object} map[string]interface{} "otp verification success"
+// @Router /api/v1/auth/verif-otp [post]
 func (userH UserHandler) VerifOTP(ctx *gin.Context) {
 	var userOTP requests.UserVerifOTPRequest
 
@@ -137,6 +168,13 @@ func (userH UserHandler) VerifOTP(ctx *gin.Context) {
 	NewSuccessResponse(ctx, statusCode, "otp verification success", nil)
 }
 
+// @Summary Get User Data
+// @Description Get data of authenticated user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{} "user data fetched successfully"
+// @Router /api/v1/users/me [get]
 func (c UserHandler) GetUserData(ctx *gin.Context) {
 	// get authenticated user from context
 	userClaims := ctx.MustGet(constants.CtxAuthenticatedUserKey).(jwt.JwtCustomClaim)

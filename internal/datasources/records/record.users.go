@@ -1,19 +1,15 @@
 package records
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 type Users struct {
-	Id        string         `gorm:"primaryKey;column:id"`
-	Username  string         `gorm:"column:username"`
-	Email     string         `gorm:"column:email;unique"`
-	Password  string         `gorm:"column:password"`
-	Active    bool           `gorm:"column:active"`
-	RoleId    int            `gorm:"column:role_id"`
-	CreatedAt time.Time      `gorm:"column:created_at"`
-	UpdatedAt time.Time      `gorm:"column:updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;index"`
+	gorm.Model
+	ID       string `gorm:"type:uuid;default:uuid_generate_v4();primaryKey;"`
+	Username string `json:"username" gorm:"type:varchar(200);"`
+	Email    string `json:"email" gorm:"type:varchar(200);"`
+	Password string `json:"password" gorm:"type:varchar(200);"`
+	Active   bool   `json:"active" gorm:"type:boolean;"`
+	RoleId   int    `json:"role_id" gorm:"type:integer;"`
 }

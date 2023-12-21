@@ -1,4 +1,170 @@
+definitions:
+  requests.UserLoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  requests.UserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  requests.UserSendOTPRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  requests.UserVerifOTPRequest:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+    required:
+    - code
+    - email
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user
+      parameters:
+      - description: Login User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: login success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: User login
+      tags:
+      - auth
+  /api/v1/auth/regis:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: Register User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: registration user success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: User registration
+      tags:
+      - auth
+  /api/v1/auth/send-otp:
+    post:
+      consumes:
+      - application/json
+      description: Send an OTP to user's email
+      parameters:
+      - description: Send OTP
+        in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserSendOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: otp code has been send
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Send OTP
+      tags:
+      - auth
+  /api/v1/auth/verif-otp:
+    post:
+      consumes:
+      - application/json
+      description: Verify OTP for a user
+      parameters:
+      - description: Verify OTP
+        in: body
+        name: otp
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UserVerifOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: otp verification success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Verify OTP
+      tags:
+      - auth
+  /api/v1/users/me:
+    get:
+      consumes:
+      - application/json
+      description: Get data of authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data fetched successfully
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get User Data
+      tags:
+      - users
+  /example/helloworld:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ping example
+      tags:
+      - example
 swagger: "2.0"

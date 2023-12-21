@@ -6,27 +6,23 @@ import (
 
 func (u *Users) ToV1Domain() V1Domains.UserDomain {
 	return V1Domains.UserDomain{
-		ID:        u.Id,
-		Username:  u.Username,
-		Email:     u.Email,
-		Password:  u.Password,
-		Active:    u.Active,
-		RoleID:    u.RoleId,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: &u.UpdatedAt,
+		ID:       u.ID,
+		Username: u.Username,
+		Email:    u.Email,
+		Password: u.Password,
+		Active:   u.Active,
+		RoleID:   u.RoleId,
 	}
 }
 
 func FromUsersV1Domain(u *V1Domains.UserDomain) Users {
 	return Users{
-		Id:        u.ID,
-		Username:  u.Username,
-		Email:     u.Email,
-		Password:  u.Password,
-		Active:    u.Active,
-		RoleId:    u.RoleID,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: *u.UpdatedAt,
+		ID:       u.ID,
+		Username: u.Username,
+		Email:    u.Email,
+		Password: u.Password,
+		Active:   u.Active,
+		RoleId:   u.RoleID,
 	}
 }
 

@@ -3,9 +3,7 @@ package v1
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
-	"time"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 	"github.com/anggitrestuu/go-rest-api/internal/constants"
@@ -34,8 +32,13 @@ func (userUC *userUsecase) Store(ctx context.Context, inDom *V1Domains.UserDomai
 		return V1Domains.UserDomain{}, http.StatusInternalServerError, err
 	}
 
-	inDom.CreatedAt = time.Now().In(constants.GMT7)
-	fmt.Println(time.Now().In(constants.GMT7))
+	// check if email already exist in database
+	usr, _ := userUC.repo.GetByEmail(ctx, inDom)
+
+	if usr.Email == inDom.Email {
+		return V1Domains.UserDomain{}, http.StatusBadRequest, errors.New("email already exist")
+	}
+
 	err = userUC.repo.Store(ctx, inDom)
 	if err != nil {
 		return V1Domains.UserDomain{}, http.StatusInternalServerError, err

@@ -67,7 +67,8 @@ func NewApp() (*App, error) {
 	routes.NewUsersRoute(api, conn, jwtService, redisCache, ristrettoCache, authMiddleware, mailerService).Routes()
 
 	// swagger
-	docs.SwaggerInfo.BasePath = "/api"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	docs.SwaggerInfo.Title = "Go Rest API"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	// we can add web pages if needed
 	// web := router.Group("web")
@@ -103,7 +104,7 @@ func (a *App) Run() (err error) {
 	<-quit
 	logger.Info("shutdown server ...", logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryServer})
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
 	if err := a.HttpServer.Shutdown(ctx); err != nil {
@@ -112,7 +113,7 @@ func (a *App) Run() (err error) {
 
 	// catching ctx.Done(). timeout of 5 seconds.
 	<-ctx.Done()
-	logger.Info("timeout of 5 seconds.", logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryServer})
+	logger.Info("timeout of 1 seconds.", logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryServer})
 	logger.Info("server exiting", logrus.Fields{constants.LoggerCategory: constants.LoggerCategoryServer})
 	return
 }

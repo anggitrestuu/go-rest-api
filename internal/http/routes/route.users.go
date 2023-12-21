@@ -42,7 +42,6 @@ func (r *usersRoutes) Routes() {
 		userRoute.Use(r.authMiddleware)
 		{
 			userRoute.GET("/me", r.V1Handler.GetUserData)
-			// ...
 		}
 	}
 
