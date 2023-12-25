@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
+	"github.com/anggitrestuu/go-rest-api/pkg/paginations"
 )
 
 type authorizationUseCase struct {
@@ -51,4 +52,16 @@ func (authUC *authorizationUseCase) Delete(ctx context.Context, id int) (statusC
 	}
 
 	return http.StatusOK, nil
+}
+
+func (authUC *authorizationUseCase) GetAll(ctx context.Context) (outDom any, statusCode int, err error) {
+
+	params := paginations.PaginationParams{Page: 1, Limit: 10, SortBy: "name:desc", Filters: ""}
+
+	outDom, err = authUC.repo.GetAll(ctx, params)
+	if err != nil {
+		return V1Domains.AuthorizationDomain{}, http.StatusInternalServerError, err
+	}
+
+	return outDom, http.StatusOK, nil
 }

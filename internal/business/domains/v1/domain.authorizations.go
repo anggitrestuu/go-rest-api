@@ -2,6 +2,8 @@ package v1
 
 import (
 	"context"
+
+	"github.com/anggitrestuu/go-rest-api/pkg/paginations"
 )
 
 // AuthorizationDomain represents the domain record for authorizations.
@@ -17,6 +19,7 @@ type AuthorizationUseCase interface {
 	GetByID(ctx context.Context, id int) (outDom AuthorizationDomain, statusCode int, err error)
 	Update(ctx context.Context, inDom *AuthorizationDomain) (outDom AuthorizationDomain, statusCode int, err error)
 	Delete(ctx context.Context, id int) (statusCode int, err error)
+	GetAll(ctx context.Context) (result any, statusCode int, err error)
 }
 
 // AuthorizationRepository represents the authorizations repository contract.
@@ -25,4 +28,5 @@ type AuthorizationRepository interface {
 	GetByID(ctx context.Context, id int) (outDom AuthorizationDomain, err error)
 	Update(ctx context.Context, inDom *AuthorizationDomain) (err error)
 	Delete(ctx context.Context, id int) (err error)
+	GetAll(ctx context.Context, params paginations.PaginationParams) (result any, err error)
 }

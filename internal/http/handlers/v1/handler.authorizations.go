@@ -70,3 +70,40 @@ func (authH AuthorizationHandler) GetByID(ctx *gin.Context) {
 
 	NewSuccessResponse(ctx, statusCode, "get authorization by id success", responses.FromAuthorizationV1Domain(outDomain))
 }
+
+// @Summary Update authorization by id
+// @Description Update authorization by id
+// @Tags authorization
+// @Accept json
+// @Produce json
+// @Param id path int true "authorization id"
+// @Success 200 {object} map[string]interface{} "update authorization by id success"
+// @Router /api/v1/authorizations/{id} [delete]
+func (authH AuthorizationHandler) Delete(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	statusCode, err := authH.useCase.Delete(ctx.Request.Context(), utils.StringToInt(id))
+	if err != nil {
+		NewErrorResponse(ctx, statusCode, err.Error())
+		return
+	}
+
+	NewSuccessResponse(ctx, statusCode, "delete authorization by id success", nil)
+}
+
+// @Summary Get all authorization
+// @Description Get all authorization
+// @Tags authorization
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{} "get all authorization success"
+// @Router /api/v1/authorizations [get]
+func (authH AuthorizationHandler) GetAll(ctx *gin.Context) {
+	outDomain, statusCode, err := authH.useCase.GetAll(ctx.Request.Context())
+	if err != nil {
+		NewErrorResponse(ctx, statusCode, err.Error())
+		return
+	}
+
+	NewSuccessResponse(ctx, statusCode, "get all authorization success", outDomain)
+}

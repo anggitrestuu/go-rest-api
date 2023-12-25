@@ -9,17 +9,20 @@ import (
 )
 
 type authorizationsRoutes struct {
-	V1Handler V1Handlers.AuthorizationHandler
-	router    *gin.RouterGroup
-	db        *gorm.DB
+	V1Handler      V1Handlers.AuthorizationHandler
+	router         *gin.RouterGroup
+	db             *gorm.DB
+	authMiddleware gin.HandlerFunc
 }
 
-func NewAuthorizationsRoute(router *gin.RouterGroup, db *gorm.DB) *authorizationsRoutes {
+func NewAuthorizationsRoute(router *gin.RouterGroup, db *gorm.DB, authMiddleware gin.HandlerFunc) *authorizationsRoutes {
 	V1AuthRepository := V1PostgresRepository.NewAuthorizationRepository(db)
 	V1AuthUseCase := V1Usecase.NewAuthorizationUseCase(V1AuthRepository)
 	V1AuthHandler := V1Handlers.NewAuthorizationHandler(V1AuthUseCase)
 
-	return &authorizationsRoutes{V1Handler: V1AuthHandler, router: router, db: db}
+	return &authorizationsRoutes{V1Handler: V1AuthHandler, router: router, db: db,
+		authMiddleware: authMiddleware,
+	}
 }
 
 func (r *authorizationsRoutes) Routes() {
@@ -28,10 +31,11 @@ func (r *authorizationsRoutes) Routes() {
 	{
 		// authorizations
 		authorizationRoute := V1Route.Group("/authorizations")
-		//authorizationRoute.Use(r.authMiddleware)
 		{
-			authorizationRoute.POST("/", r.V1Handler.Store)
+			authorizationRoute.GET("/", r.V1Handler.GetAll)
 			authorizationRoute.GET("/:id", r.V1Handler.GetByID)
+			authorizationRoute.POST("/", r.V1Handler.Store)
+			authorizationRoute.DELETE("/:id", r.V1Handler.Delete)
 		}
 	}
 }

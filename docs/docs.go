@@ -156,6 +156,28 @@ const docTemplate = `{
             }
         },
         "/api/v1/authorizations": {
+            "get": {
+                "description": "Get all authorization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authorization"
+                ],
+                "summary": "Get all authorization",
+                "responses": {
+                    "200": {
+                        "description": "get all authorization success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create new authorization",
                 "consumes": [
@@ -215,6 +237,37 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "get authorization by id success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Update authorization by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authorization"
+                ],
+                "summary": "Update authorization by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "authorization id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update authorization by id success",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

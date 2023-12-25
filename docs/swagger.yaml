@@ -147,6 +147,21 @@ paths:
       tags:
       - auth
   /api/v1/authorizations:
+    get:
+      consumes:
+      - application/json
+      description: Get all authorization
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get all authorization success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all authorization
+      tags:
+      - authorization
     post:
       consumes:
       - application/json
@@ -170,6 +185,27 @@ paths:
       tags:
       - authorization
   /api/v1/authorizations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Update authorization by id
+      parameters:
+      - description: authorization id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: update authorization by id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update authorization by id
+      tags:
+      - authorization
     get:
       consumes:
       - application/json
