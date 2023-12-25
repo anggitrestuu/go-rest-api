@@ -2,9 +2,11 @@ package v1
 
 import (
 	"context"
+	"fmt"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
+	gorm_paginations "github.com/anggitrestuu/go-rest-api/pkg/paginations"
 	"gorm.io/gorm"
 )
 
@@ -31,6 +33,17 @@ func (r *postgreUserRepository) Store(ctx context.Context, inDom *V1Domains.User
 
 func (r *postgreUserRepository) GetByEmail(ctx context.Context, inDom *V1Domains.UserDomain) (outDomain V1Domains.UserDomain, err error) {
 	userRecord := records.FromUsersV1Domain(inDom)
+
+	paginationParams := gorm_paginations.PaginationParams{Page: 1, Limit: 10, SortBy: "name:desc", Filters: ""}
+
+	fmt.Println("paginationParams", paginationParams)
+	paginatedResult, err := gorm_paginations.Paginate(r.conn.WithContext(ctx), paginationParams, userRecord)
+	if err != nil {
+		fmt.Println("errorPaginate", err)
+		return V1Domains.UserDomain{}, err
+	}
+
+	fmt.Println("paginatedResult", paginatedResult)
 
 	// Using GORM's First method to fetch the first record matching the email
 	result := r.conn.WithContext(ctx).Where("email = ?", userRecord.Email).First(&userRecord)

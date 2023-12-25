@@ -1,12 +1,9 @@
 package v1
 
-import "context"
-
+// RoleDomain represents the domain model for roles.
 type RoleDomain struct {
-	ID   int
-	Name string
-}
-
-type RoleDomainRepository interface {
-	GetAll(ctx context.Context) (outDomain []RoleDomain, err error)
+	ID             int
+	Name           string
+	Description    string
+	Authorizations []AuthorizationDomain
 }

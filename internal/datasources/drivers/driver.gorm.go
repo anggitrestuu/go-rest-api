@@ -44,7 +44,7 @@ func (config *GORMConfig) InitializeGORMDatabase() (*gorm.DB, error) {
 		return nil, fmt.Errorf("error opening database with GORM: %v", err)
 	}
 
-	err = db.AutoMigrate(&records.Users{})
+	err = db.AutoMigrate(&records.Users{}, &records.Roles{}, &records.Authorizations{}, &records.Accounts{})
 	if err != nil {
 		return nil, fmt.Errorf("error migrating database with GORM: %v", err)
 	}

@@ -1,13 +1,9 @@
 package records
 
-import "gorm.io/gorm"
-
-func init() {
-
-}
-
 type Roles struct {
-	gorm.Model
-	ID   uint   `gorm:"primaryKey;autoIncrement;"`
-	Name string `json:"name" gorm:"type:varchar(200);"`
+	ID             uint             `gorm:"primaryKey;autoIncrement;"`
+	Name           string           `gorm:"type:varchar(200);unique;"`
+	Description    string           `gorm:"type:varchar(200);"`
+	Accounts       []Accounts       `gorm:"many2many:account_roles;"`
+	Authorizations []Authorizations `gorm:"many2many:role_authorizations;"`
 }

@@ -1,4 +1,14 @@
 definitions:
+  requests.AuthorizationRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
   requests.UserLoginRequest:
     properties:
       email:
@@ -136,6 +146,51 @@ paths:
       summary: Verify OTP
       tags:
       - auth
+  /api/v1/authorizations:
+    post:
+      consumes:
+      - application/json
+      description: Create new authorization
+      parameters:
+      - description: Create new authorization
+        in: body
+        name: authorization
+        required: true
+        schema:
+          $ref: '#/definitions/requests.AuthorizationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: create new authorization success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new authorization
+      tags:
+      - authorization
+  /api/v1/authorizations/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get authorization by id
+      parameters:
+      - description: authorization id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get authorization by id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get authorization by id
+      tags:
+      - authorization
   /api/v1/users/me:
     get:
       consumes:

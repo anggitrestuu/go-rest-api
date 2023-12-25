@@ -155,6 +155,74 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/authorizations": {
+            "post": {
+                "description": "Create new authorization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authorization"
+                ],
+                "summary": "Create new authorization",
+                "parameters": [
+                    {
+                        "description": "Create new authorization",
+                        "name": "authorization",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.AuthorizationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "create new authorization success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/authorizations/{id}": {
+            "get": {
+                "description": "Get authorization by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authorization"
+                ],
+                "summary": "Get authorization by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "authorization id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get authorization by id success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users/me": {
             "get": {
                 "description": "Get data of authenticated user",
@@ -204,6 +272,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "requests.AuthorizationRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "requests.UserLoginRequest": {
             "type": "object",
             "required": [
