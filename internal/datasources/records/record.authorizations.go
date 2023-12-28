@@ -1,6 +1,9 @@
 package records
 
+import "gorm.io/gorm"
+
 type Authorizations struct {
+	gorm.Model
 	ID          uint    `gorm:"primaryKey;autoIncrement;"`
 	Name        string  `gorm:"type:varchar(200);unique;"`
 	Description string  `gorm:"type:varchar(200);"`
