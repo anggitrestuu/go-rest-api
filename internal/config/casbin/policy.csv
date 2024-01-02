@@ -1,0 +1,8 @@
+p, admin, *, *
+p, editor, article, edit
+p, editor, article, create
+p, viewer, article, view
+
+g, alice, admin
+g, bob, editor
+g, charlie, viewer
