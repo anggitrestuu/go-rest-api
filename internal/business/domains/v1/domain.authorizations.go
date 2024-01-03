@@ -6,9 +6,9 @@ import (
 
 // AuthorizationDomain represents the domain record for authorizations.
 type AuthorizationDomain struct {
-	ID          uint   `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ID          uint
+	Name        string
+	Description string
 }
 
 // AuthorizationUseCase represents the authorizations useCase contract.

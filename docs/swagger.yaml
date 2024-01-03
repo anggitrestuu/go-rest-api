@@ -9,6 +9,15 @@ definitions:
     - description
     - name
     type: object
+  requests.RoleRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
   requests.UserLoginRequest:
     properties:
       email:
@@ -50,6 +59,15 @@ definitions:
     required:
     - code
     - email
+    type: object
+  responses.RoleResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
     type: object
 info:
   contact: {}
@@ -227,6 +245,49 @@ paths:
       summary: Get authorization by id
       tags:
       - authorization
+  /api/v1/roles:
+    post:
+      consumes:
+      - application/json
+      description: Create new role
+      parameters:
+      - description: Create new role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RoleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.RoleResponse'
+      summary: Create new role
+      tags:
+      - role
+  /api/v1/roles/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get role by id
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.RoleResponse'
+      summary: Get role by id
+      tags:
+      - role
   /api/v1/users/me:
     get:
       consumes:

@@ -66,6 +66,7 @@ func NewApp() (*App, error) {
 	api.GET("/", routes.RootHandler)
 	routes.NewUsersRoute(api, conn, jwtService, redisCache, ristrettoCache, authMiddleware, mailerService).Routes()
 	routes.NewAuthorizationsRoute(api, conn, authMiddleware).Routes()
+	routes.NewRolesRoute(api, conn, authMiddleware).Routes()
 
 	// swagger
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
