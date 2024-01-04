@@ -63,8 +63,8 @@ func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params any
 
 	newParams := paginate.Params{
 		Page:    "1",
-		Limit:   "10",
-		SortBy:  "",
+		Limit:   "100",
+		SortBy:  "id,asc;",
 		Filters: "",
 	}
 
@@ -72,15 +72,18 @@ func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params any
 
 	if err != nil {
 		log.Fatal("Error creating pagination:", err)
+		return nil, err
 	}
 
 	// Apply pagination to the database query
 	if err := pagination.Paginate(r.conn.WithContext(ctx)); err != nil {
 		log.Fatal("Error during pagination:", err)
+		return nil, err
 	}
 
-	result := paginate.NewType[V1Domains.AuthorizationDomain]()
-	result.Items = records.ToArrayOfAuthorizationV1Domain(&pagination.Items)
+	result := paginate.NewItems[V1Domains.AuthorizationDomain](
+		records.ToArrayOfAuthorizationV1Domain(&pagination.Items),
+	)
 
 	return result, nil
 }

@@ -3,7 +3,9 @@ package v1
 import (
 	"net/http"
 
+	"github.com/anggitrestuu/go-rest-api/pkg/logger"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type BaseResponse struct {
@@ -13,6 +15,7 @@ type BaseResponse struct {
 }
 
 func NewSuccessResponse(c *gin.Context, statusCode int, message string, data interface{}) {
+
 	c.JSON(statusCode, BaseResponse{
 		Status:  true,
 		Message: message,
@@ -21,6 +24,9 @@ func NewSuccessResponse(c *gin.Context, statusCode int, message string, data int
 }
 
 func NewErrorResponse(c *gin.Context, statusCode int, err string) {
+
+	logger.ErrorF("Error Response", logrus.Fields{"status": statusCode, "message": err})
+
 	c.JSON(statusCode, BaseResponse{
 		Status:  false,
 		Message: err,

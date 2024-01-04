@@ -32,7 +32,7 @@ func (roleAuthH RoleAuthorizationHandler) AssignAuthorizationToRole(ctx *gin.Con
 	roleID := utils.StringToInt(ctx.Param("roles_id"))
 	authorizationID := utils.StringToInt(ctx.Param("authorizations_id"))
 
-	outDomain, statusCode, err := roleAuthH.useCase.AssignAuthorizationToRole(ctx, roleID, authorizationID)
+	outDomain, statusCode, err := roleAuthH.useCase.AssignAuthorizationToRole(ctx.Request.Context(), roleID, authorizationID)
 	if err != nil {
 		NewErrorResponse(ctx, statusCode, err.Error())
 		return

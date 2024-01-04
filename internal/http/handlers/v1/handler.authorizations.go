@@ -134,7 +134,7 @@ func (authH AuthorizationHandler) Update(ctx *gin.Context) {
 	inDomain := AuthorizationRequest.ToV1Domain()
 	inDomain.ID = utils.StringToUint(id)
 
-	outDomain, statusCode, err := authH.useCase.Update(ctx, inDomain)
+	outDomain, statusCode, err := authH.useCase.Update(ctx.Request.Context(), inDomain)
 	if err != nil {
 		NewErrorResponse(ctx, statusCode, err.Error())
 		return

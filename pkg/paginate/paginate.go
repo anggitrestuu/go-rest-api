@@ -2,6 +2,7 @@ package paginate
 
 import (
 	"strconv"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -13,12 +14,12 @@ type Pagination[T any] struct {
 	Page       int    `json:"page"`
 	Limit      int    `json:"limit"`
 	SortBy     string `json:"sort_by"`
+	Filters    string `json:"filters"`
 }
 
-// new items of type T
-func NewType[T any]() *Pagination[T] {
+func NewItems[T any](items []T) *Pagination[T] {
 	return &Pagination[T]{
-		Items: []T{},
+		Items: items,
 	}
 }
 
@@ -40,9 +41,10 @@ func ToPagination[T any](p Params) (*Pagination[T], error) {
 	}
 
 	return &Pagination[T]{
-		Page:   page,
-		Limit:  limit,
-		SortBy: p.SortBy,
+		Page:    page,
+		Limit:   limit,
+		SortBy:  p.SortBy,
+		Filters: p.Filters,
 	}, nil
 }
 
@@ -64,15 +66,38 @@ func (p *Pagination[T]) Paginate(db *gorm.DB) error {
 	offset := (p.Page - 1) * p.Limit
 	result = db.Offset(offset).Limit(p.Limit)
 
+	// Apply sorting
 	if p.SortBy != "" {
-		result = result.Order(p.SortBy)
-	}
 
-	if result.Error != nil {
-		return result.Error
+		sortParts := strings.Split(p.SortBy, ";")
+		for _, part := range sortParts {
+			if part == "" {
+				continue
+			}
+
+			// Split into operator and value
+			operatorValue := strings.SplitN(part, ",", 2)
+			if len(operatorValue) != 2 {
+				return result.Error
+			}
+
+			operator := operatorValue[0]
+			value := operatorValue[1]
+
+			result = result.Order(operator + " " + value)
+		}
+
 	}
 
 	// apply filters
+	parseFilters, err := ParseFilterFromString(p.Filters)
+	if err != nil {
+		return err
+	}
+
+	if len(parseFilters) > 0 {
+		result = ApplyFilters(result, parseFilters)
+	}
 
 	return result.Find(&p.Items).Error
 }

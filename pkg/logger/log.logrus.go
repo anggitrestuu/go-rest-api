@@ -21,6 +21,8 @@ func init() {
 		FullTimestamp:   true,
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
+
+	log.SetLevel(logrus.DebugLevel)
 }
 
 func Info(message string, fields logrus.Fields) {
