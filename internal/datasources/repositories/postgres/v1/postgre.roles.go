@@ -42,6 +42,7 @@ func (r *postgreRoleRepository) GetByID(ctx context.Context, id int) (outDom V1D
 
 func (r *postgreRoleRepository) Update(ctx context.Context, inDom *V1Domains.RoleDomain) (err error) {
 	roleRecord := records.FromRoleV1Domain(inDom)
+
 	result := r.conn.WithContext(ctx).Save(&roleRecord)
 	if result.Error != nil {
 		return result.Error

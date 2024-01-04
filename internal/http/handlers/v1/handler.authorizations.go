@@ -113,9 +113,10 @@ func (authH AuthorizationHandler) GetAll(ctx *gin.Context) {
 // @Tags authorization
 // @Accept json
 // @Produce json
-// @Param id path int true "authorization id"
+// @Param id path int true "Role ID"
+// @Param authorization body requests.AuthorizationRequest true "Update new authorization"
 // @Success 201 {object} map[string]interface{} "update authorization success"
-// @Router /api/v1/authorizations [put]
+// @Router /api/v1/authorizations/{id} [put]
 func (authH AuthorizationHandler) Update(ctx *gin.Context) {
 	id := ctx.Param("id")
 

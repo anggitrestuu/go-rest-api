@@ -202,27 +202,6 @@ paths:
       summary: Create new authorization
       tags:
       - authorization
-    put:
-      consumes:
-      - application/json
-      description: Update authorization by id
-      parameters:
-      - description: authorization id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: update authorization success
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Update authorization by id
-      tags:
-      - authorization
   /api/v1/authorizations/{id}:
     delete:
       consumes:
@@ -264,6 +243,33 @@ paths:
             additionalProperties: true
             type: object
       summary: Get authorization by id
+      tags:
+      - authorization
+    put:
+      consumes:
+      - application/json
+      description: Update authorization by id
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update new authorization
+        in: body
+        name: authorization
+        required: true
+        schema:
+          $ref: '#/definitions/requests.AuthorizationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: update authorization success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update authorization by id
       tags:
       - authorization
   /api/v1/roles:
@@ -371,6 +377,81 @@ paths:
       summary: Update role by id
       tags:
       - role
+  /api/v1/roles/{roles_id}/authorizations:
+    get:
+      consumes:
+      - application/json
+      description: Get authorizations by role id
+      parameters:
+      - description: Role ID
+        in: path
+        name: roles_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get authorizations by role id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get authorizations by role id
+      tags:
+      - role-authorization
+  /api/v1/roles/{roles_id}/authorizations/{authorizations_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove authorization from role
+      parameters:
+      - description: Role ID
+        in: path
+        name: roles_id
+        required: true
+        type: integer
+      - description: Authorization ID
+        in: path
+        name: authorizations_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: remove authorization from role success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Remove authorization from role
+      tags:
+      - role-authorization
+    post:
+      consumes:
+      - application/json
+      description: Assign authorization to role
+      parameters:
+      - description: Role ID
+        in: path
+        name: roles_id
+        required: true
+        type: integer
+      - description: Authorization ID
+        in: path
+        name: authorizations_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: assign authorization to role success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Assign authorization to role
+      tags:
+      - role-authorization
   /api/v1/users/me:
     get:
       consumes:

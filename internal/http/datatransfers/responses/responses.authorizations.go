@@ -25,3 +25,13 @@ func FromAuthorizationV1Domain(u V1Domains.AuthorizationDomain) AuthorizationRes
 		Description: u.Description,
 	}
 }
+
+type AuthorizationResponses []AuthorizationResponse
+
+func FromAuthorizationV1Domains(u []V1Domains.AuthorizationDomain) AuthorizationResponses {
+	var responses AuthorizationResponses
+	for _, v := range u {
+		responses = append(responses, FromAuthorizationV1Domain(v))
+	}
+	return responses
+}

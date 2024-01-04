@@ -33,10 +33,10 @@ func (r *authorizationsRoutes) Routes() {
 		authorizationRoute := V1Route.Group("/authorizations")
 		{
 			authorizationRoute.GET("/", r.V1Handler.GetAll)
-			authorizationRoute.GET("/:id", r.V1Handler.GetByID)
 			authorizationRoute.POST("/", r.V1Handler.Store)
-			authorizationRoute.DELETE("/:id", r.V1Handler.Delete)
+			authorizationRoute.GET("/:id", r.V1Handler.GetByID)
 			authorizationRoute.PUT("/:id", r.V1Handler.Update)
+			authorizationRoute.DELETE("/:id", r.V1Handler.Delete)
 		}
 	}
 }
