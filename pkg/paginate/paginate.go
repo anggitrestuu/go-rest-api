@@ -1,7 +1,8 @@
 package paginate
 
 import (
-	"github.com/anggitrestuu/go-rest-api/internal/utils"
+	"strconv"
+
 	"gorm.io/gorm"
 )
 
@@ -24,12 +25,15 @@ type Params struct {
 
 // params to pagination
 func (p *Params) ToPagination(model interface{}) *Pagination {
+	page, _ := strconv.Atoi(p.Page)   // Handle error appropriately
+	limit, _ := strconv.Atoi(p.Limit) // Handle error appropriately
+
 	return &Pagination{
 		Items:      model,
 		TotalItems: 0,
 		TotalPages: 0,
-		Page:       utils.StringToInt(p.Page),
-		Limit:      utils.StringToInt(p.Limit),
+		Page:       page,
+		Limit:      limit,
 		SortBy:     p.SortBy,
 		Filters:    p.Filters,
 	}
