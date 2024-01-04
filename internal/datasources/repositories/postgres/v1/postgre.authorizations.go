@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"log"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
@@ -64,13 +63,11 @@ func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params pag
 	pagination, err := paginate.ToPagination[records.Authorizations](params)
 
 	if err != nil {
-		log.Fatal("Error creating pagination:", err)
 		return paginate.Pagination[V1Domains.AuthorizationDomain]{}, err
 	}
 
 	// Apply pagination to the database query
 	if err := pagination.Paginate(r.conn.WithContext(ctx)); err != nil {
-		log.Fatal("Error during pagination:", err)
 		return paginate.Pagination[V1Domains.AuthorizationDomain]{}, err
 	}
 

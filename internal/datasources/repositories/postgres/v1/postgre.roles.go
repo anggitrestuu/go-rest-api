@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"log"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
@@ -67,13 +66,11 @@ func (r *postgreRoleRepository) GetAll(ctx context.Context, params paginate.Para
 	pagination, err := paginate.ToPagination[records.Roles](params)
 
 	if err != nil {
-		log.Fatal("Error creating pagination:", err)
 		return paginate.Pagination[V1Domains.RoleDomain]{}, err
 	}
 
 	// Apply pagination to the database query
 	if err := pagination.Paginate(r.conn.WithContext(ctx)); err != nil {
-		log.Fatal("Error during pagination:", err)
 		return paginate.Pagination[V1Domains.RoleDomain]{}, err
 	}
 
