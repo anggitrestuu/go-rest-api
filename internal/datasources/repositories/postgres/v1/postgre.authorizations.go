@@ -59,31 +59,30 @@ func (r *postgresAuthorizationRepository) Delete(ctx context.Context, id int) (e
 	return nil
 }
 
-func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params any) (model any, err error) {
+func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params paginate.Params) (outDom paginate.Pagination[V1Domains.AuthorizationDomain], err error) {
 
-	newParams := paginate.Params{
-		Page:    "1",
-		Limit:   "100",
-		SortBy:  "id,asc;",
-		Filters: "",
-	}
-
-	pagination, err := paginate.ToPagination[records.Authorizations](newParams)
+	pagination, err := paginate.ToPagination[records.Authorizations](params)
 
 	if err != nil {
 		log.Fatal("Error creating pagination:", err)
-		return nil, err
+		return paginate.Pagination[V1Domains.AuthorizationDomain]{}, err
 	}
 
 	// Apply pagination to the database query
 	if err := pagination.Paginate(r.conn.WithContext(ctx)); err != nil {
 		log.Fatal("Error during pagination:", err)
-		return nil, err
+		return paginate.Pagination[V1Domains.AuthorizationDomain]{}, err
 	}
 
-	result := paginate.NewItems[V1Domains.AuthorizationDomain](
-		records.ToArrayOfAuthorizationV1Domain(&pagination.Items),
-	)
+	result := paginate.Pagination[V1Domains.AuthorizationDomain]{
+		Items:      records.ToArrayOfAuthorizationV1Domain(&pagination.Items),
+		TotalItems: pagination.TotalItems,
+		TotalPages: pagination.TotalPages,
+		Page:       pagination.Page,
+		Limit:      pagination.Limit,
+		SortBy:     pagination.SortBy,
+		Filters:    pagination.Filters,
+	}
 
 	return result, nil
 }

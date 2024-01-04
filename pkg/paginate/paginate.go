@@ -17,12 +17,6 @@ type Pagination[T any] struct {
 	Filters    string `json:"filters"`
 }
 
-func NewItems[T any](items []T) *Pagination[T] {
-	return &Pagination[T]{
-		Items: items,
-	}
-}
-
 type Params struct {
 	Limit   string `form:"limit"`
 	Page    string `form:"page"`

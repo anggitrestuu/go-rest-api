@@ -7,6 +7,7 @@ import (
 	"github.com/anggitrestuu/go-rest-api/internal/http/datatransfers/requests"
 	"github.com/anggitrestuu/go-rest-api/internal/http/datatransfers/responses"
 	"github.com/anggitrestuu/go-rest-api/internal/utils"
+	"github.com/anggitrestuu/go-rest-api/pkg/paginate"
 	"github.com/anggitrestuu/go-rest-api/pkg/validators"
 	"github.com/gin-gonic/gin"
 )
@@ -96,10 +97,20 @@ func (authH AuthorizationHandler) Delete(ctx *gin.Context) {
 // @Tags authorization
 // @Accept json
 // @Produce json
+// @Param limit query string false "Limit" default(10)
+// @Param page query string false "Page" default(1)
+// @Param sort_by query string false "Sort By"
+// @Param filters query string false "Filters"
 // @Success 200 {object} map[string]interface{} "get all authorization success"
 // @Router /api/v1/authorizations [get]
 func (authH AuthorizationHandler) GetAll(ctx *gin.Context) {
-	outDomain, statusCode, err := authH.useCase.GetAll(ctx.Request.Context())
+	var queryParams paginate.Params
+	if err := ctx.ShouldBindQuery(&queryParams); err != nil {
+		NewErrorResponse(ctx, http.StatusBadRequest, "Invalid query parameters")
+		return
+	}
+
+	outDomain, statusCode, err := authH.useCase.GetAll(ctx.Request.Context(), queryParams)
 	if err != nil {
 		NewErrorResponse(ctx, statusCode, err.Error())
 		return
