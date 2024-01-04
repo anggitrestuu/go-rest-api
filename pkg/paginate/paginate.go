@@ -12,68 +12,55 @@ type Pagination struct {
 	Page       int         `json:"page"`
 	Limit      int         `json:"limit"`
 	SortBy     string      `json:"sort_by"`
+	Filters    string      `json:"filters"`
 }
 
 type Params struct {
-	Page    string `json:"page" example:"1"`                              // the page number
-	Limit   string `json:"limit" example:"10"`                            // the number of items per page
-	SortBy  string `json:"sort_by" example:"id:desc;name:desc;color:asc"` // optional: ex: "id:desc;name:desc;color:asc"
-	Filters string `json:"filters" example:"$eq:account.id=1;"`           // optional
+	Limit   string `json:"limit"`
+	Page    string `json:"page"`
+	SortBy  string `json:"sort_by"`
+	Filters string `json:"filters"`
 }
 
-type paginate struct {
-	limit   int
-	page    int
-	sortBy  string
-	filters string
-	model   interface{}
-}
-
-type response struct {
-	Items      interface{} `json:"items"`
-	TotalItems int64       `json:"total_items"`
-	TotalPages int         `json:"total_pages"`
-	Page       int         `json:"page"`
-	Limit      int         `json:"limit"`
-}
-
-func NewPaginate(params Params, model interface{}) *paginate {
-	return &paginate{
-		limit:   utils.StringToInt(params.Limit),
-		page:    utils.StringToInt(params.Page),
-		sortBy:  params.SortBy,
-		filters: params.Filters,
-		model:   model,
+// params to pagination
+func (p *Params) ToPagination(model interface{}) *Pagination {
+	return &Pagination{
+		Items:      model,
+		TotalItems: 0,
+		TotalPages: 0,
+		Page:       utils.StringToInt(p.Page),
+		Limit:      utils.StringToInt(p.Limit),
+		SortBy:     p.SortBy,
+		Filters:    p.Filters,
 	}
-
 }
 
-func (p *paginate) Paginate(db *gorm.DB) (*gorm.DB, error) {
+func (p *Pagination) Paginate(db *gorm.DB) (*gorm.DB, error) {
+	// calculate total items
 
-	result := &response{Page: p.page, Limit: p.limit}
-
-	// Calculate the total items and pages
-	if err := db.Model(p.model).Count(&result.TotalItems).Error; err != nil {
+	if err := db.Model(p.Items).Count(&p.TotalItems).Error; err != nil {
 		return nil, err
 	}
 
-	result.TotalPages = int((result.TotalItems + int64(p.limit) - 1) / int64(p.limit))
+	// calculate total pages
+	p.TotalPages = int((p.TotalItems + int64(p.Limit) - 1) / int64(p.Limit))
 
 	// apply pagination
-	if p.page < 1 {
-		p.page = 1
+	if p.Page < 1 {
+		p.Page = 1
 	}
-	if p.limit < 1 || p.limit > 100 {
-		p.limit = 100
+	if p.Limit < 1 || p.Limit > 100 {
+		p.Limit = 100
 	}
-	offset := (p.page - 1) * p.limit
 
-	db = db.Offset(offset).Limit(p.limit)
+	offset := (p.Page - 1) * p.Limit
+
+	db = db.Offset(offset).Limit(p.Limit)
 
 	// Apply sorting
-	if p.sortBy != "" {
+	if p.SortBy != "" {
 		sortOrder := ""
-		sortBy := p.sortBy
+		sortBy := p.SortBy
 		for _, v := range sortBy {
 			if v == ';' {
 				sortOrder += ", "
@@ -88,26 +75,15 @@ func (p *paginate) Paginate(db *gorm.DB) (*gorm.DB, error) {
 	}
 
 	// apply filters
-	parseFilters, err := ParseFilterFromString(p.filters)
-
+	parseFilters, err := ParseFilterFromString(p.Filters)
 	if err != nil {
 		return nil, err
 	}
 
-	db = ApplyFilters(db, parseFilters)
+	if len(parseFilters) > 0 {
+		db = ApplyFilters(db, parseFilters)
+	}
 
 	return db, nil
 
-	//if err != nil {
-	//	return nil, err
-	//}
-	//db = ApplyFilters(db, parseFilters)
-	//
-	//if err = db.Find(p.model).Error; err != nil {
-	//	return nil, err
-	//}
-	//
-	//result.Items = p.model
-	//
-	//return result, nil
 }

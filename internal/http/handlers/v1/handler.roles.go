@@ -80,6 +80,8 @@ func (h RoleHandler) GetByID(ctx *gin.Context) {
 // @Success 200 {object} responses.RoleResponse{}
 // @Router /api/v1/roles/{id} [put]
 func (h RoleHandler) Update(ctx *gin.Context) {
+	id := ctx.Param("id")
+
 	var RoleRequest requests.RoleRequest
 	if err := ctx.ShouldBindJSON(&RoleRequest); err != nil {
 		NewErrorResponse(ctx, http.StatusBadRequest, err.Error())
@@ -92,6 +94,8 @@ func (h RoleHandler) Update(ctx *gin.Context) {
 	}
 
 	inDomain := RoleRequest.ToV1Domain()
+	inDomain.ID = utils.StringToInt(id)
+
 	outDomain, statusCode, err := h.useCase.Update(ctx.Request.Context(), inDomain)
 	if err != nil {
 		NewErrorResponse(ctx, statusCode, err.Error())

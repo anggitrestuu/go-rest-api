@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"fmt"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 	"github.com/anggitrestuu/go-rest-api/internal/datasources/records"
@@ -61,8 +60,6 @@ func (r *postgresAuthorizationRepository) Delete(ctx context.Context, id int) (e
 
 func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params any) (model any, err error) {
 
-	fmt.Println("params", params)
-
 	newParams := paginate.Params{
 		Limit:   "10",
 		Page:    "1",
@@ -70,17 +67,17 @@ func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params any
 		Filters: "",
 	}
 
-	var authorizationRecords []records.Authorizations
-	result, err := paginate.NewPaginate(newParams, &authorizationRecords).Paginate(r.conn.WithContext(ctx))
+	pagination := newParams.ToPagination(&records.Authorizations{})
+	db, err := pagination.Paginate(r.conn.WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
 
-	//result.Items = records.ToArrayOfAuthorizationV1Domain(&authorizationRecords)
+	err = db.Find(pagination.Items).Error
+	if err != nil {
+		return nil, err
+	}
 
-	//response.Items = records.ToArrayOfAuthorizationV1Domain(&authorizationRecords)
+	return pagination, nil
 
-	return result, nil
-
-	//return records.ToArrayOfAuthorizationV1Domain(&authorizationRecords), nil
 }

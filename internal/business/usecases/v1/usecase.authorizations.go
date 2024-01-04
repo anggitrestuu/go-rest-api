@@ -2,8 +2,9 @@ package v1
 
 import (
 	"context"
-	"github.com/anggitrestuu/go-rest-api/pkg/paginate"
 	"net/http"
+
+	"github.com/anggitrestuu/go-rest-api/pkg/paginate"
 
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
 )

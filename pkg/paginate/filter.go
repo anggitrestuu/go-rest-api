@@ -2,8 +2,9 @@ package paginate
 
 import (
 	"fmt"
-	"gorm.io/gorm"
 	"strings"
+
+	"gorm.io/gorm"
 )
 
 // FilterOperator type for defining filter operators
