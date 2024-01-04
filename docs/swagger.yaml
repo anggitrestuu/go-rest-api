@@ -202,8 +202,7 @@ paths:
       summary: Create new authorization
       tags:
       - authorization
-  /api/v1/authorizations/{id}:
-    delete:
+    put:
       consumes:
       - application/json
       description: Update authorization by id
@@ -216,12 +215,34 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: update authorization by id success
+        "201":
+          description: update authorization success
           schema:
             additionalProperties: true
             type: object
       summary: Update authorization by id
+      tags:
+      - authorization
+  /api/v1/authorizations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete authorization by id
+      parameters:
+      - description: authorization id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete authorization by id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: delete authorization by id
       tags:
       - authorization
     get:
@@ -246,6 +267,22 @@ paths:
       tags:
       - authorization
   /api/v1/roles:
+    get:
+      consumes:
+      - application/json
+      description: Get all role
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responses.RoleResponse'
+            type: array
+      summary: Get all role
+      tags:
+      - role
     post:
       consumes:
       - application/json
@@ -268,6 +305,26 @@ paths:
       tags:
       - role
   /api/v1/roles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete role by id
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: delete role success
+          schema:
+            type: string
+      summary: Delete role by id
+      tags:
+      - role
     get:
       consumes:
       - application/json
@@ -286,6 +343,32 @@ paths:
           schema:
             $ref: '#/definitions/responses.RoleResponse'
       summary: Get role by id
+      tags:
+      - role
+    put:
+      consumes:
+      - application/json
+      description: Update role by id
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.RoleResponse'
+      summary: Update role by id
       tags:
       - role
   /api/v1/users/me:

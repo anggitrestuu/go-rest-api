@@ -178,6 +178,37 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "description": "Update authorization by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authorization"
+                ],
+                "summary": "Update authorization by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "authorization id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "update authorization success",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create new authorization",
                 "consumes": [
@@ -245,7 +276,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Update authorization by id",
+                "description": "delete authorization by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -255,7 +286,7 @@ const docTemplate = `{
                 "tags": [
                     "authorization"
                 ],
-                "summary": "Update authorization by id",
+                "summary": "delete authorization by id",
                 "parameters": [
                     {
                         "type": "integer",
@@ -267,7 +298,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "update authorization by id success",
+                        "description": "Delete authorization by id success",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -277,6 +308,30 @@ const docTemplate = `{
             }
         },
         "/api/v1/roles": {
+            "get": {
+                "description": "Get all role",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "role"
+                ],
+                "summary": "Get all role",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responses.RoleResponse"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create new role",
                 "consumes": [
@@ -337,6 +392,75 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/responses.RoleResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update role by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "role"
+                ],
+                "summary": "Update role by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Role ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update role",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.RoleResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete role by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "role"
+                ],
+                "summary": "Delete role by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Role ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "delete role success",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }

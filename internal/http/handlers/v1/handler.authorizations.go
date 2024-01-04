@@ -71,13 +71,13 @@ func (authH AuthorizationHandler) GetByID(ctx *gin.Context) {
 	NewSuccessResponse(ctx, statusCode, "get authorization by id success", responses.FromAuthorizationV1Domain(outDomain))
 }
 
-// @Summary Update authorization by id
-// @Description Update authorization by id
+// @Summary delete authorization by id
+// @Description delete authorization by id
 // @Tags authorization
 // @Accept json
 // @Produce json
 // @Param id path int true "authorization id"
-// @Success 200 {object} map[string]interface{} "update authorization by id success"
+// @Success 200 {object} map[string]interface{} "Delete authorization by id success"
 // @Router /api/v1/authorizations/{id} [delete]
 func (authH AuthorizationHandler) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
@@ -106,4 +106,38 @@ func (authH AuthorizationHandler) GetAll(ctx *gin.Context) {
 	}
 
 	NewSuccessResponse(ctx, statusCode, "get all authorization success", outDomain)
+}
+
+// @Summary Update authorization by id
+// @Description Update authorization by id
+// @Tags authorization
+// @Accept json
+// @Produce json
+// @Param id path int true "authorization id"
+// @Success 201 {object} map[string]interface{} "update authorization success"
+// @Router /api/v1/authorizations [put]
+func (authH AuthorizationHandler) Update(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	var AuthorizationRequest requests.AuthorizationRequest
+	if err := ctx.ShouldBindJSON(&AuthorizationRequest); err != nil {
+		NewErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := validators.ValidatePayloads(AuthorizationRequest); err != nil {
+		NewErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	inDomain := AuthorizationRequest.ToV1Domain()
+	inDomain.ID = utils.StringToUint(id)
+
+	outDomain, statusCode, err := authH.useCase.Update(ctx.Request.Context(), inDomain)
+	if err != nil {
+		NewErrorResponse(ctx, statusCode, err.Error())
+		return
+	}
+
+	NewSuccessResponse(ctx, statusCode, "update authorization by id success", responses.FromAuthorizationV1Domain(outDomain))
 }

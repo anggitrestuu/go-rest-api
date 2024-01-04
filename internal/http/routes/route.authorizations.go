@@ -36,6 +36,7 @@ func (r *authorizationsRoutes) Routes() {
 			authorizationRoute.GET("/:id", r.V1Handler.GetByID)
 			authorizationRoute.POST("/", r.V1Handler.Store)
 			authorizationRoute.DELETE("/:id", r.V1Handler.Delete)
+			authorizationRoute.PUT("/:id", r.V1Handler.Update)
 		}
 	}
 }
