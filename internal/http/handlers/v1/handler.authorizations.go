@@ -116,7 +116,7 @@ func (authH AuthorizationHandler) GetAll(ctx *gin.Context) {
 		return
 	}
 
-	NewSuccessResponse(ctx, statusCode, "get all authorization success", outDomain)
+	NewSuccessResponse(ctx, statusCode, "get all authorization success", responses.PaginationFromAuthorizationV1Domains(outDomain))
 }
 
 // @Summary Update authorization by id
