@@ -74,15 +74,8 @@ func (r *postgresAuthorizationRepository) GetAll(ctx context.Context, params pag
 		return paginate.Pagination[V1Domains.AuthorizationDomain]{}, err
 	}
 
-	result := paginate.Pagination[V1Domains.AuthorizationDomain]{
-		Items:      records.ToArrayOfAuthorizationV1Domain(&pagination.Items),
-		TotalItems: pagination.TotalItems,
-		TotalPages: pagination.TotalPages,
-		Page:       pagination.Page,
-		Limit:      pagination.Limit,
-		SortBy:     pagination.SortBy,
-		Filters:    pagination.Filters,
-	}
+	// Transform the pagination items
+	result := paginate.TransformPagination(pagination, records.ToAuthorizationV1Domain)
 
 	return result, nil
 }

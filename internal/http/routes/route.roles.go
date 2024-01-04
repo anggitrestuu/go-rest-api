@@ -35,9 +35,9 @@ func (r *rolesRoutes) Routes() {
 		// roleRoute.Use(r.authMiddleware)
 		{
 			roleRoute.POST("", r.V1Handler.Store)
+			roleRoute.GET("", r.V1Handler.GetAll)
 			roleRoute.PUT("/:id", r.V1Handler.Update)
 			roleRoute.GET("/:id", r.V1Handler.GetByID)
-			roleRoute.GET("/roles", r.V1Handler.GetAll)
 			roleRoute.DELETE("/:id", r.V1Handler.Delete)
 
 		}

@@ -116,7 +116,9 @@ func (authH AuthorizationHandler) GetAll(ctx *gin.Context) {
 		return
 	}
 
-	NewSuccessResponse(ctx, statusCode, "get all authorization success", responses.PaginationFromAuthorizationV1Domains(outDomain))
+	roleResponsePagination := responses.TransformPagination(outDomain, responses.FromAuthorizationV1Domain)
+
+	NewSuccessResponse(ctx, statusCode, "get all authorization success", roleResponsePagination)
 }
 
 // @Summary Update authorization by id

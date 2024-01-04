@@ -27,3 +27,12 @@ func ToArrayOfAuthorizationV1Domain(u *[]Authorizations) []V1Domains.Authorizati
 
 	return result
 }
+
+func ToAuthorizationV1Domain(a *Authorizations) V1Domains.AuthorizationDomain {
+	// Conversion logic from records.Authorizations to V1Domains.AuthorizationDomain
+	return V1Domains.AuthorizationDomain{
+		ID:          a.ID,
+		Name:        a.Name,
+		Description: a.Description,
+	}
+}

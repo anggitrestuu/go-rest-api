@@ -55,12 +55,10 @@ func (roleUC *roleUseCase) Delete(ctx context.Context, id int) (statusCode int, 
 	return http.StatusOK, nil
 }
 
-func (roleUC *roleUseCase) GetAll(ctx context.Context) (outDom any, statusCode int, err error) {
-	params := paginate.Params{Page: "1", Limit: "10", SortBy: "name:asc", Filters: ""}
-
+func (roleUC *roleUseCase) GetAll(ctx context.Context, params paginate.Params) (outDom paginate.Pagination[V1Domains.RoleDomain], statusCode int, err error) {
 	outDom, err = roleUC.repo.GetAll(ctx, params)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return paginate.Pagination[V1Domains.RoleDomain]{}, http.StatusInternalServerError, err
 	}
 
 	return outDom, http.StatusOK, nil

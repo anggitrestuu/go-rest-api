@@ -7,6 +7,26 @@ import (
 	"gorm.io/gorm"
 )
 
+// Transformer is a generic function type for transforming domain models to response models.
+type Transformer[T any, R any] func(T) R
+
+func TransformPagination[T any, R any](pagination *Pagination[T], transformer func(*T) R) Pagination[R] {
+	var newItems []R
+	for _, item := range pagination.Items {
+		newItems = append(newItems, transformer(&item))
+	}
+
+	return Pagination[R]{
+		Items:      newItems,
+		TotalItems: pagination.TotalItems,
+		TotalPages: pagination.TotalPages,
+		Page:       pagination.Page,
+		Limit:      pagination.Limit,
+		SortBy:     pagination.SortBy,
+		Filters:    pagination.Filters,
+	}
+}
+
 type Pagination[T any] struct {
 	Items      []T    `json:"items"`
 	TotalItems int64  `json:"total_items"`

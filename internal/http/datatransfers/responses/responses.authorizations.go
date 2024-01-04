@@ -2,7 +2,6 @@ package responses
 
 import (
 	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
-	"github.com/anggitrestuu/go-rest-api/pkg/paginate"
 )
 
 type AuthorizationResponse struct {
@@ -35,20 +34,4 @@ func FromAuthorizationV1Domains(u []V1Domains.AuthorizationDomain) Authorization
 		responses = append(responses, FromAuthorizationV1Domain(v))
 	}
 	return responses
-}
-
-func PaginationFromAuthorizationV1Domains(u paginate.Pagination[V1Domains.AuthorizationDomain]) paginate.Pagination[AuthorizationResponse] {
-	var responses paginate.Pagination[AuthorizationResponse]
-	for _, v := range u.Items {
-		responses.Items = append(responses.Items, FromAuthorizationV1Domain(v))
-	}
-
-	responses.Filters = u.Filters
-	responses.Limit = u.Limit
-	responses.Page = u.Page
-	responses.TotalPages = u.TotalPages
-	responses.TotalItems = u.TotalItems
-
-	return responses
-
 }

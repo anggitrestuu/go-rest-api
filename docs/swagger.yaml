@@ -296,15 +296,33 @@ paths:
       consumes:
       - application/json
       description: Get all role
+      parameters:
+      - default: "10"
+        description: Limit
+        in: query
+        name: limit
+        type: string
+      - default: "1"
+        description: Page
+        in: query
+        name: page
+        type: string
+      - description: Sort By
+        in: query
+        name: sort_by
+        type: string
+      - description: Filters
+        in: query
+        name: filters
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: get all role success
           schema:
-            items:
-              $ref: '#/definitions/responses.RoleResponse'
-            type: array
+            additionalProperties: true
+            type: object
       summary: Get all role
       tags:
       - role

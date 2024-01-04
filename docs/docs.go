@@ -357,14 +357,40 @@ const docTemplate = `{
                     "role"
                 ],
                 "summary": "Get all role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "10",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "1",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort By",
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filters",
+                        "name": "filters",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "get all role success",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/responses.RoleResponse"
-                            }
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }
