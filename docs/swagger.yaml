@@ -9,6 +9,15 @@ definitions:
     - description
     - name
     type: object
+  requests.ProductRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
   requests.RoleRequest:
     properties:
       description:
@@ -291,6 +300,133 @@ paths:
       summary: Update authorization by id
       tags:
       - authorization
+  /api/v1/products:
+    get:
+      consumes:
+      - application/json
+      description: Get all product
+      parameters:
+      - default: "10"
+        description: Limit
+        in: query
+        name: limit
+        type: string
+      - default: "1"
+        description: Page
+        in: query
+        name: page
+        type: string
+      - description: Sort By
+        in: query
+        name: sort_by
+        type: string
+      - description: Filters
+        in: query
+        name: filters
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get all product success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all product
+      tags:
+      - product
+    post:
+      consumes:
+      - application/json
+      description: Create new product
+      parameters:
+      - description: Create new product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/requests.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: create new product success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new product
+      tags:
+      - product
+  /api/v1/products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete product by id
+      parameters:
+      - description: product id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete product by id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: delete product by id
+      tags:
+      - product
+    get:
+      consumes:
+      - application/json
+      description: Get product by id
+      parameters:
+      - description: product id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get product by id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get product by id
+      tags:
+      - product
+    put:
+      consumes:
+      - application/json
+      description: Update product by id
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update new product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/requests.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: update product success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update product by id
+      tags:
+      - product
   /api/v1/roles:
     get:
       consumes:

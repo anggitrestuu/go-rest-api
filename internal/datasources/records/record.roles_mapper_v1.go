@@ -27,3 +27,11 @@ func ToArrayOfRoleV1Domain(u *[]Roles) []V1Domains.RoleDomain {
 
 	return result
 }
+
+func ToRoleV1Domain(a *Roles) V1Domains.RoleDomain {
+	return V1Domains.RoleDomain{
+		ID:          a.ID,
+		Name:        a.Name,
+		Description: a.Description,
+	}
+}

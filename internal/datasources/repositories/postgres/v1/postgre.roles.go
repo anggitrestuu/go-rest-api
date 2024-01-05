@@ -74,15 +74,10 @@ func (r *postgreRoleRepository) GetAll(ctx context.Context, params paginate.Para
 		return paginate.Pagination[V1Domains.RoleDomain]{}, err
 	}
 
-	result := paginate.Pagination[V1Domains.RoleDomain]{
-		Items:      records.ToArrayOfRoleV1Domain(&pagination.Items),
-		TotalItems: pagination.TotalItems,
-		TotalPages: pagination.TotalPages,
-		Page:       pagination.Page,
-		Limit:      pagination.Limit,
-		SortBy:     pagination.SortBy,
-		Filters:    pagination.Filters,
-	}
+	result := paginate.TransformPagination(
+		pagination,
+		records.ToRoleV1Domain,
+	)
 
 	return result, nil
 }
