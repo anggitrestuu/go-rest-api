@@ -1,12 +1,21 @@
 package records
 
-import V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
+import (
+	V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/v1"
+)
 
 func (u *Roles) ToV1Domain() V1Domains.RoleDomain {
+
+	var roleAuthorizations []V1Domains.AuthorizationDomain
+	for _, val := range u.Authorizations {
+		roleAuthorizations = append(roleAuthorizations, val.ToV1Domain())
+	}
+
 	return V1Domains.RoleDomain{
-		ID:          u.ID,
-		Name:        u.Name,
-		Description: u.Description,
+		ID:             u.ID,
+		Name:           u.Name,
+		Description:    u.Description,
+		Authorizations: roleAuthorizations,
 	}
 }
 
@@ -29,9 +38,16 @@ func ToArrayOfRoleV1Domain(u *[]Roles) []V1Domains.RoleDomain {
 }
 
 func ToRoleV1Domain(a *Roles) V1Domains.RoleDomain {
+
+	var roleAuthorizations []V1Domains.AuthorizationDomain
+	for _, val := range a.Authorizations {
+		roleAuthorizations = append(roleAuthorizations, val.ToV1Domain())
+	}
+
 	return V1Domains.RoleDomain{
-		ID:          a.ID,
-		Name:        a.Name,
-		Description: a.Description,
+		ID:             a.ID,
+		Name:           a.Name,
+		Description:    a.Description,
+		Authorizations: roleAuthorizations,
 	}
 }

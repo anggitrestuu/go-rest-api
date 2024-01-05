@@ -63,7 +63,9 @@ func (r *postgreRoleRepository) Delete(ctx context.Context, id int) (err error) 
 }
 
 func (r *postgreRoleRepository) GetAll(ctx context.Context, params paginate.Params) (outDom paginate.Pagination[V1Domains.RoleDomain], err error) {
+
 	pagination, err := paginate.ToPagination[records.Roles](params)
+	pagination.Preload("Authorizations")
 
 	if err != nil {
 		return paginate.Pagination[V1Domains.RoleDomain]{}, err

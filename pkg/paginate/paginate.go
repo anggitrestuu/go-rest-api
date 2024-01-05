@@ -35,6 +35,7 @@ type Pagination[T any] struct {
 	Limit      int    `json:"limit"`
 	SortBy     string `json:"sort_by"`
 	Filters    string `json:"filters"`
+	preload    []string
 }
 
 type Params struct {
@@ -60,6 +61,10 @@ func ToPagination[T any](p Params) (*Pagination[T], error) {
 		SortBy:  p.SortBy,
 		Filters: p.Filters,
 	}, nil
+}
+
+func (p *Pagination[T]) Preload(preload ...string) {
+	p.preload = preload
 }
 
 func (p *Pagination[T]) Paginate(db *gorm.DB) error {
@@ -111,6 +116,11 @@ func (p *Pagination[T]) Paginate(db *gorm.DB) error {
 
 	if len(parseFilters) > 0 {
 		result = ApplyFilters(result, parseFilters)
+	}
+
+	// Apply preload
+	for _, preload := range p.preload {
+		result = result.Preload(preload)
 	}
 
 	return result.Find(&p.Items).Error

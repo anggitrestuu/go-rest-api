@@ -69,7 +69,7 @@ func (r *postgresRoleAuthorizationRepository) GetAuthorizationsByRoleID(ctx cont
 	var authDomains []V1Domains.AuthorizationDomain
 
 	// Fetch role with related authorizations
-	result := r.conn.Preload("Authorizations").First(&role, roleID)
+	result := r.conn.WithContext(ctx).Preload("Authorizations").First(&role, roleID)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil, fmt.Errorf("role with ID %d not found", roleID)
