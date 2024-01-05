@@ -5,7 +5,7 @@ import V1Domains "github.com/anggitrestuu/go-rest-api/internal/business/domains/
 // General Request
 type AuthorizationRequest struct {
 	Name        string `json:"name" validate:"required"`
-	Description string `json:"description" validate:"required"`
+	Description string `json:"description"`
 }
 
 // Mapping General Request to Domain Authorization

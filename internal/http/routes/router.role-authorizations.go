@@ -29,13 +29,15 @@ func NewRoleAuthorizationsRoute(router *gin.RouterGroup, db *gorm.DB, authMiddle
 }
 
 func (r *roleAuthorizationsRoutes) Routes() {
+	// Routes V1
+	V1Route := r.router.Group("/v1")
 	{
-		// role-authorizations
-		roleAuthorizationRoute := r.router.Group("/v1")
+		// roles
+		roleAuthorizationRoute := V1Route.Group("/role-authorizations")
 		{
-			roleAuthorizationRoute.POST("/roles/:role_id/authorizations/:authorization_id", r.V1Handler.AssignAuthorizationToRole)
-			roleAuthorizationRoute.DELETE("/roles/:role_id/authorizations/:authorization_id", r.V1Handler.RemoveAuthorizationFromRole)
-			roleAuthorizationRoute.GET("/roles/:role_id/authorizations", r.V1Handler.GetAuthorizationsByRoleID)
+			roleAuthorizationRoute.POST("/:roles_id/:authorizations_id", r.V1Handler.AssignAuthorizationToRole)
+			roleAuthorizationRoute.DELETE("/:roles_id/:authorizations_id", r.V1Handler.RemoveAuthorizationFromRole)
+			roleAuthorizationRoute.GET("/:roles_id", r.V1Handler.GetAuthorizationsByRoleID)
 		}
 	}
 }

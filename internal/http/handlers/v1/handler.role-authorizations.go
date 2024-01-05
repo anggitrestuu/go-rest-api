@@ -1,5 +1,3 @@
-// file : handler.role-authorizations.go
-
 package v1
 
 import (
@@ -27,7 +25,7 @@ func NewRoleAuthorizationHandler(useCase V1Domains.RoleAuthorizationUseCase) Rol
 // @Param roles_id path int true "Role ID"
 // @Param authorizations_id path int true "Authorization ID"
 // @Success 200 {object} map[string]interface{} "assign authorization to role success"
-// @Router /api/v1/roles/{roles_id}/authorizations/{authorizations_id} [post]
+// @Router /api/v1/role-authorizations/{roles_id}/{authorizations_id} [post]
 func (roleAuthH RoleAuthorizationHandler) AssignAuthorizationToRole(ctx *gin.Context) {
 	roleID := utils.StringToInt(ctx.Param("roles_id"))
 	authorizationID := utils.StringToInt(ctx.Param("authorizations_id"))
@@ -49,7 +47,7 @@ func (roleAuthH RoleAuthorizationHandler) AssignAuthorizationToRole(ctx *gin.Con
 // @Param roles_id path int true "Role ID"
 // @Param authorizations_id path int true "Authorization ID"
 // @Success 200 {object} map[string]interface{} "remove authorization from role success"
-// @Router /api/v1/roles/{roles_id}/authorizations/{authorizations_id} [delete]
+// @Router /api/v1/role-authorizations/{roles_id}/{authorizations_id} [delete]
 func (roleAuthH RoleAuthorizationHandler) RemoveAuthorizationFromRole(ctx *gin.Context) {
 	roleID := utils.StringToInt(ctx.Param("roles_id"))
 	authorizationID := utils.StringToInt(ctx.Param("authorizations_id"))
@@ -70,7 +68,7 @@ func (roleAuthH RoleAuthorizationHandler) RemoveAuthorizationFromRole(ctx *gin.C
 // @Produce json
 // @Param roles_id path int true "Role ID"
 // @Success 200 {object} map[string]interface{} "get authorizations by role id success"
-// @Router /api/v1/roles/{roles_id}/authorizations [get]
+// @Router /api/v1/role-authorizations/{roles_id} [get]
 func (roleAuthH RoleAuthorizationHandler) GetAuthorizationsByRoleID(ctx *gin.Context) {
 	roleID := utils.StringToInt(ctx.Param("roles_id"))
 

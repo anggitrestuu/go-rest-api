@@ -6,7 +6,6 @@ definitions:
       name:
         type: string
     required:
-    - description
     - name
     type: object
   requests.ProductRequest:
@@ -427,6 +426,81 @@ paths:
       summary: Update product by id
       tags:
       - product
+  /api/v1/role-authorizations/{roles_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get authorizations by role id
+      parameters:
+      - description: Role ID
+        in: path
+        name: roles_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get authorizations by role id success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get authorizations by role id
+      tags:
+      - role-authorization
+  /api/v1/role-authorizations/{roles_id}/{authorizations_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove authorization from role
+      parameters:
+      - description: Role ID
+        in: path
+        name: roles_id
+        required: true
+        type: integer
+      - description: Authorization ID
+        in: path
+        name: authorizations_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: remove authorization from role success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Remove authorization from role
+      tags:
+      - role-authorization
+    post:
+      consumes:
+      - application/json
+      description: Assign authorization to role
+      parameters:
+      - description: Role ID
+        in: path
+        name: roles_id
+        required: true
+        type: integer
+      - description: Authorization ID
+        in: path
+        name: authorizations_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: assign authorization to role success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Assign authorization to role
+      tags:
+      - role-authorization
   /api/v1/roles:
     get:
       consumes:
@@ -550,81 +624,6 @@ paths:
       summary: Update role by id
       tags:
       - role
-  /api/v1/roles/{roles_id}/authorizations:
-    get:
-      consumes:
-      - application/json
-      description: Get authorizations by role id
-      parameters:
-      - description: Role ID
-        in: path
-        name: roles_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: get authorizations by role id success
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get authorizations by role id
-      tags:
-      - role-authorization
-  /api/v1/roles/{roles_id}/authorizations/{authorizations_id}:
-    delete:
-      consumes:
-      - application/json
-      description: Remove authorization from role
-      parameters:
-      - description: Role ID
-        in: path
-        name: roles_id
-        required: true
-        type: integer
-      - description: Authorization ID
-        in: path
-        name: authorizations_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: remove authorization from role success
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Remove authorization from role
-      tags:
-      - role-authorization
-    post:
-      consumes:
-      - application/json
-      description: Assign authorization to role
-      parameters:
-      - description: Role ID
-        in: path
-        name: roles_id
-        required: true
-        type: integer
-      - description: Authorization ID
-        in: path
-        name: authorizations_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: assign authorization to role success
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Assign authorization to role
-      tags:
-      - role-authorization
   /api/v1/users/me:
     get:
       consumes:
